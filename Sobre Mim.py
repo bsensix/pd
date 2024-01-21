@@ -20,7 +20,7 @@ col1.markdown(
     "Além disso, sou entusiasta de esportes e aplico minhas habilidades em análises de dados em contextos esportivos, com ênfase em esportes como futebol e basquete. "
 )
 
-image = Image.open("Perfil.png")
+image = Image.open(r"Dados/Perfil.png")
 col2.image(image)
 
 st.title("🛠️ Tecnologias e Ferramentas")
