@@ -12,7 +12,7 @@ st.markdown(
 st.markdown(
     "Um dos parâmetros e as escolhas dos raios dos Pivôes, abaixo você pode definir o intervalo dos círculos que vão ser selecionados:"
 )
-imagem_selecionada = r"Dados\NDVI.tif"
+imagem_selecionada = r"Dados/NDVI.tif"
 
 col1, col2 = st.columns(2)
 

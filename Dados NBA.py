@@ -34,7 +34,7 @@ def get_team_last_games(team_id):
 
 
 # Carregar seus dados
-df = pd.read_csv(r"Dados\jogos_ate_01_01_2027.csv")
+df = pd.read_csv(r"Dados/jogos_ate_01_01_2027.csv")
 nome_times = teams.get_teams()
 nome_times = pd.DataFrame(nome_times)
 
@@ -274,7 +274,7 @@ with tab3:
     team_id_2 = get_team_id(selected_team_2["full_name"])
 
     # Obter os últimos jogos de todos os times para a temporada atual
-    all_teams_games = pd.read_csv(r"Dados\jogos_ate_01_01_2027.csv")
+    all_teams_games = pd.read_csv(r"Dados/jogos_ate_01_01_2027.csv")
     all_teams_games["Jogos"] = all_teams_games["WL"].replace(
         {"W": "Vitória", "L": "Derrota"}
     )
@@ -428,7 +428,7 @@ with tab3:
             f'A previsão do total de pontos para o jogo entre {selected_team_1["full_name"]} e {selected_team_2["full_name"]} é: {prediction_team_1 + prediction_team_2:.2f}'
         )
 with tab4:
-    df_jogadores = pd.read_csv(r"Dados\todos_jogadores.csv")
+    df_jogadores = pd.read_csv(r"Dados/todos_jogadores.csv")
     nome_jogadores = players.get_players()
     nome_jogadores = pd.DataFrame(nome_jogadores)
 

@@ -19,7 +19,7 @@ st.markdown(
 
 # Ler o DataFrame de exemplo
 df = pd.read_csv(
-    r"Dados\all_players.csv",
+    r"Dados/all_players.csv",
     index_col=0,
 )
 

@@ -12,13 +12,14 @@ st.sidebar.markdown("- [E-mail](breno_1697@hotmail.com)")
 st.title("🧑‍💻 Sobre Mim")
 col1, col2 = st.columns(2)
 
-col1.markdown("Olá meu nome é **Breno Nunes**!")
+col1.markdown("Bem-vindo ao meu **portfólio**! ")
 col1.markdown(
-    "Sou formado em Engenharia Ambiental pela (UFU), atualmente trabalho como **Cientista de Dados** em análises de dados aplicados a Agricultura e  Meio ambiente!"
+    "Sou formado em Engenharia Ambiental pela (UFU) e atualmente trabalho como Cientista de Dados, especializado em análises de dados aplicados à Agricultura e Meio Ambiente. Além disso, sou um entusiasta de esportes e aplico minhas habilidades em análises de dados, com foco especial em esportes como futebol e basquete."
 )
 col1.markdown(
-    "Além disso, sou entusiasta de esportes e aplico minhas habilidades em análises de dados em contextos esportivos, com ênfase em esportes como futebol e basquete. "
+    "Este é um espaço onde você pode explorar alguns dos projetos nos quais estive envolvido. Sinta-se à vontade para entrar em contato caso tenha dúvidas. Na aba à esquerda, você encontrará alguns desses projetos e um pouco da minha experiência."
 )
+col1.markdown("Atenciosamente, Breno Nunes")
 
 image = Image.open(r"Dados/Perfil.png")
 col2.image(image)
