@@ -5,7 +5,6 @@ from PIL import Image
 barra_lateral = st.sidebar.empty()
 
 st.sidebar.markdown("- [Github](https://github.com/bsensix)")
-st.sidebar.markdown("- [Mapas](https://www.spatialnode.net/bnunis)")
 st.sidebar.markdown("- [Linkedin](https://www.linkedin.com/in/breno-nunes-b595781ba/)")
 st.sidebar.markdown("- [E-mail](breno_1697@hotmail.com)")
 
@@ -14,7 +13,7 @@ col1, col2 = st.columns(2)
 
 col1.markdown("Bem-vindo ao meu **portfólio**! ")
 col1.markdown(
-    "Sou formado em Engenharia Ambiental pela (UFU) e atualmente trabalho como **Cientista de Dados**, especializado em análises de dados aplicados à **Agricultura e Meio Ambiente**. Além disso, sou um entusiasta de esportes e aplico algumas análises em esportes como Futebol e Basquete"
+    "Sou formado em Engenharia Ambiental pela (UFU) e atualmente trabalho como **Cientista de Dados**, especializado em análises de dados aplicados à **Agricultura e Meio Ambiente**. Além disso, sou um entusiasta de esportes e aplico algumas análises em esportes como Futebol e Basquete."
 )
 col1.markdown(
     "Este é um espaço onde você pode explorar alguns dos projetos nos quais estive envolvido. Sinta-se à vontade para entrar em contato caso tenha dúvidas."
@@ -68,6 +67,10 @@ with st.expander("📓 Processamento de dados no QGIS para o Agro"):
         "Curso voltado a profissionais do Agro que querem trabalhar com dados georreferenciados"
     )
     st.write("https://conteudo.sensix.ag/qgis")
+
+with st.expander("📗 Ebook Geração de Zonas de Manejo"):
+    st.write("Ebook voltada para o processo de geração de Zonas de Manejo no Campo")
+    st.write("https://conteudo.sensix.ag/ebook-zonas-de-manejo")
 
 st.title("🎖️ Certificados")
 with st.expander("Python"):
