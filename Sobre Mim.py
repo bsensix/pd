@@ -14,7 +14,7 @@ col1, col2 = st.columns(2)
 
 col1.markdown("Bem-vindo ao meu **portfólio**! ")
 col1.markdown(
-    "Sou formado em Engenharia Ambiental pela (UFU) e atualmente trabalho como Cientista de Dados, especializado em análises de dados aplicados à Agricultura e Meio Ambiente. Além disso, sou um entusiasta de esportes e aplico minhas habilidades em análises de dados, com foco especial em esportes como futebol e basquete."
+    "Sou formado em Engenharia Ambiental pela (UFU) e atualmente trabalho como **Cientista de Dados**, especializado em análises de dados aplicados à **Agricultura e Meio Ambiente**. Além disso, sou um entusiasta de esportes e aplico algumas análises em esportes como Futebol e Basquete"
 )
 col1.markdown(
     "Este é um espaço onde você pode explorar alguns dos projetos nos quais estive envolvido. Sinta-se à vontade para entrar em contato caso tenha dúvidas. Na aba à esquerda, você encontrará alguns desses projetos e um pouco da minha experiência."
@@ -26,7 +26,7 @@ col2.image(image)
 
 st.title("🛠️ Tecnologias e Ferramentas")
 
-imagem1 = Image.open(r"\Dados\Processamento Armazenamento.jpg")
+imagem1 = Image.open(r"/Dados/Processamento Armazenamento.jpg")
 st.image(imagem1)
 
 st.title("📖 Artigos e Cursos")
