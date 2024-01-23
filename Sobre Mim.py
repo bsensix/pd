@@ -4,10 +4,6 @@ from PIL import Image
 # Barra Lateral
 barra_lateral = st.sidebar.empty()
 
-st.sidebar.markdown("- [Github](https://github.com/bsensix)")
-st.sidebar.markdown("- [Linkedin](https://www.linkedin.com/in/breno-nunes-b595781ba/)")
-st.sidebar.markdown("- [E-mail](breno_1697@hotmail.com)")
-
 st.title("🧑‍💻 Sobre Mim")
 col1, col2 = st.columns(2)
 

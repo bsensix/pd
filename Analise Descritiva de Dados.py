@@ -3,9 +3,6 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 
-# Barra Lateral
-barra_lateral = st.sidebar.empty()
-
 st.title("Análise Descritiva de Dados 📊")
 st.markdown(
     "A análise descritiva de dados é uma etapa inicial de exploração, resumo e compreensão de um conjunto de dados. Envolve o cálculo de estatísticas resumidas e a criação de gráficos para identificar tendências, padrões e valores atípicos."
@@ -24,11 +21,23 @@ df = pd.read_csv(
 )
 
 # imagem EA Sports
-
-st.sidebar.image(
-    "https://media.moneytimes.com.br/uploads/2023/08/fotos-para-site-mt-38.png",
-    use_column_width=True,
+# Estilo CSS para posicionar a imagem
+image_style = (
+    "position: absolute; "
+    "top: 00; "
+    "right: 0; "
+    "width: 100px; "
+    "height: 50px; "
+    "margin-top: -340px; "
+    "margin-right: -160px;"
 )
+
+# Criar o código HTML para a imagem
+image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/EA_Sports_FC_24_logo.svg/2560px-EA_Sports_FC_24_logo.svg.png"
+image_html = f'<img src="{image_url}" style="{image_style}">'
+
+# Usar st.markdown para exibir a imagem
+st.markdown(image_html, unsafe_allow_html=True)
 
 # Filtros
 st.title("Filtros:")
