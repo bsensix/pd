@@ -27,7 +27,8 @@ show_pages(
         Page("Página - GEE - Download de Imagens.py", "Download de Imagens no GEE", "🌎"),
         Page("Identificação de Pivôs - Interface.py", "Identificação de Círculos", "🔘"),
         Page("Analise Descritiva de Dados.py", "Análise Descritiva de Dados", "📊"),
-        Page("Dados NBA.py", "Previsão de Total Pontos NBA","🏀")
+        Page("Dados NBA.py", "Previsão de Total Pontos NBA","🏀"),
+        Page("Trafego Pago.py","Análise Dados Trafego Pago")
         
     ]
 )
