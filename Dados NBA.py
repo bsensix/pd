@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from nba_api.stats.endpoints import teamgamelog
 from nba_api.stats.static import players, teams
+from PIL import Image
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
@@ -122,10 +123,20 @@ with tab1:
     )
 
     st.markdown(
-        "Este relatório de exibição dos jogos da NBA tem como propósito apresentar rankings de times e métricas de jogadores, atendendo tanto aos fãs de basquete quanto àqueles interessados em utilizar dados para apostas esportivas na principal liga de basquete mundo. Utilizamos informações dos jogos para treinar um modelo de previsão de pontos totais em uma partida, considerando as métricas de ataque das equipes envolvidas. Além disso, oferecemos análises de desempenho individual de cada jogador ao longo da temporada."
+        "Este relatório com os dados da NBA tem como propósito apresentar **rankings de times e métricas de jogadores**, atendendo tanto aos fãs de basquete quanto àqueles interessados em utilizar dados para apostas esportivas na principal liga de Basquete mundo."
     )
 
-    # Aba 1: Jogos de Hoje
+    st.markdown(
+        "Utilizamos informações dos jogos para treinar um modelo de previsão de pontos totais em uma partida, considerando as métricas de ataque e defesa das equipes envolvidas."
+    )
+    st.markdown(
+        " Além disso, oferecemos análises de desempenho individual de cada jogador ao longo da temporada, nas abas acima você tem acesso aos dados da **Temporada Regular de 23-24!**"
+    )
+
+    imagem1 = Image.open(
+        r"C:\Users\sensix\Desktop\PESSOAL\PESSOAL\PORTIFOLIO DATA SCIENCE\pd\pd\Dados\nba.jpg"
+    )
+    st.image(imagem1)
 
 
 with tab2:
