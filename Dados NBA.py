@@ -133,9 +133,7 @@ with tab1:
         " Além disso, oferecemos análises de desempenho individual de cada jogador ao longo da temporada, nas abas acima você tem acesso aos dados da **Temporada Regular de 23-24!**"
     )
 
-    imagem1 = Image.open(
-        r"C:\Users\sensix\Desktop\PESSOAL\PESSOAL\PORTIFOLIO DATA SCIENCE\pd\pd\Dados\nba.jpg"
-    )
+    imagem1 = Image.open(r"Dados/nba.jpg")
     st.image(imagem1)
 
 
