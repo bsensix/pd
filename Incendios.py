@@ -6,7 +6,7 @@ st.markdown(
 )
 st.markdown(
     """
-    https://app.powerbi.com/view?r=eyJrIjoiNjFjZGVjMDEtYThjOC00M2I2LTk5ZmUtYzg4ZTg3YjExMDQ3IiwidCI6ImNkNWU2ZDIzLWNiOTktNDE4OS04OGFiLTFhOTAyMWEwYzQ1MSJ9
+    <iframe title="Incendios_Brasil" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNjFjZGVjMDEtYThjOC00M2I2LTk5ZmUtYzg4ZTg3YjExMDQ3IiwidCI6ImNkNWU2ZDIzLWNiOTktNDE4OS04OGFiLTFhOTAyMWEwYzQ1MSJ9" frameborder="0" allowFullScreen="true"></iframe>
     """,
     unsafe_allow_html=True,
 )

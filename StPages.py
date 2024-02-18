@@ -13,7 +13,7 @@ show_pages(
         Page("Analise Descritiva de Dados.py", "Análise Descritiva de Dados", "📊"),
         Page("Dados NBA.py", "Previsão de Total Pontos NBA", "🏀"),
         Page("Trafego Pago.py", "Análise Dados Tráfego Pago (Looker)", "🧑‍💻"),
-        Page("Incendios.py", "Análise Dados de Focos Incêndio (Power BI)", "🔥"),
+        Page("Incendios.py", "Análise Dados de Queimadas (Power BI)", "🔥"),
     ]
 )
 
