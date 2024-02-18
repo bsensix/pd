@@ -15,7 +15,7 @@ col1.markdown(
     "Este é um espaço onde você pode explorar alguns dos projetos nos quais estive envolvido. Sinta-se à vontade para entrar em contato caso tenha dúvidas."
 )
 col1.markdown(
-    "Na aba à esquerda, você encontrará alguns desses projetos e um pouco da minha experiência."
+    "Na aba à esquerda, você encontrará alguns desses projetos e abaixo um pouco da minha experiência com tencologias, artigos e cursos."
 )
 col1.markdown("Atenciosamente, Breno Nunes")
 
