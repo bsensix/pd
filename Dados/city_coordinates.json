@@ -1,0 +1,330 @@
+{
+    "Sao Paulo, Brazil": {
+        "latitude": -23.682794700000002,
+        "longitude": -46.716998204286014
+    },
+    "Rio de Janeiro, Brazil": {
+        "latitude": -22.9110137,
+        "longitude": -43.2093727
+    },
+    "Uberaba, Brazil": {
+        "latitude": -19.753883,
+        "longitude": -47.939313
+    },
+    "Paracatu, Brazil": {
+        "latitude": -17.225689,
+        "longitude": -46.87463
+    },
+    "Montes Claros, Brazil": {
+        "latitude": -16.737773,
+        "longitude": -43.859765
+    },
+    "Primavera do Leste, Brazil": {
+        "latitude": -15.56246,
+        "longitude": -54.29859
+    },
+    "Porto Velho, Brazil": {
+        "latitude": -8.7645,
+        "longitude": -63.8568
+    },
+    "Macapá, Brazil": {
+        "latitude": 0.02552,
+        "longitude": -51.07463
+    },
+    "Santa Maria, Brazil": {
+        "latitude": -29.694418,
+        "longitude": -53.818957
+    },
+    "Chapeco, Brazil": {
+        "latitude": -27.105412,
+        "longitude": -52.620794
+    },
+    "Cascavel, Brazil": {
+        "latitude": -24.958088,
+        "longitude": -53.461454
+    },
+    "Boa Vista, Brazil": {
+        "latitude": 2.81891,
+        "longitude": -60.68871
+    },
+    "Rio Branco, Brazil": {
+        "latitude": -9.97377,
+        "longitude": -67.80932
+    },
+    "Sinop, Brazil": {
+        "latitude": -11.86046,
+        "longitude": -55.510188
+    },
+    "Feira de Santana, Brazil": {
+        "latitude": -12.25814,
+        "longitude": -38.97361
+    },
+    "Irece, Brazil": {
+        "latitude": -11.30532,
+        "longitude": -41.86531
+    },
+    "Brasilia, Brazil": {
+        "latitude": -15.792718,
+        "longitude": -47.88901
+    },
+    "Florianopolis, Brazil": {
+        "latitude": -27.59092,
+        "longitude": -48.62056
+    },
+    "Maraba, Brazil": {
+        "latitude": -5.37065,
+        "longitude": -49.13851
+    },
+    "Rio Grande, Brazil": {
+        "latitude": -32.039477,
+        "longitude": -52.104281
+    },
+    "Santarem, Brazil": {
+        "latitude": -2.443112,
+        "longitude": -54.718477
+    },
+    "Tres Pinheiros, Brazil": {
+        "latitude": -7.0316,
+        "longitude": -55.42594
+    },
+    "Passo Fundo, Brazil": {
+        "latitude": -28.259723,
+        "longitude": -52.415498
+    },
+    "Pelotas, Brazil": {
+        "latitude": -31.7465,
+        "longitude": -52.33766
+    },
+    "Blumenau, Brazil": {
+        "latitude": -26.91514,
+        "longitude": -49.074312
+    },
+    "Vitoria da Conquista, Brazil": {
+        "latitude": -14.863315,
+        "longitude": -40.848603
+    },
+    "Jatai, Brazil": {
+        "latitude": -17.892597,
+        "longitude": -51.729764
+    },
+    "Barra do Garcas, Brazil": {
+        "latitude": -15.89199,
+        "longitude": -52.26283
+    },
+    "Dourados, Brazil": {
+        "latitude": -22.236162,
+        "longitude": -54.823224
+    },
+    "Lucas do Rio Verde, Brazil": {
+        "latitude": -13.074924,
+        "longitude": -55.914069
+    },
+    "Porto Seguro, Brazil": {
+        "latitude": -16.44469,
+        "longitude": -39.10141
+    },
+    "Goianesia, Brazil": {
+        "latitude": -15.3205,
+        "longitude": -49.14213
+    },
+    "São Jose do Rio Preto, Brazil": {
+        "latitude": -20.811513,
+        "longitude": -49.39566
+    },
+    "Três Lagoas, Brazil": {
+        "latitude": -20.790112,
+        "longitude": -51.708852
+    },
+    "Salvador, Brazil": {
+        "latitude": -12.9822499,
+        "longitude": -38.4812772
+    },
+    "Fortaleza, Brazil": {
+        "latitude": -3.7304512,
+        "longitude": -38.5217989
+    },
+    "Belo Horizonte, Brazil": {
+        "latitude": -19.9227318,
+        "longitude": -43.9450948
+    },
+    "Manaus, Brazil": {
+        "latitude": -3.1316333,
+        "longitude": -59.9825041
+    },
+    "Curitiba, Brazil": {
+        "latitude": -25.4295963,
+        "longitude": -49.2712724
+    },
+    "Recife, Brazil": {
+        "latitude": -8.0584933,
+        "longitude": -34.8848193
+    },
+    "Porto Alegre, Brazil": {
+        "latitude": -30.0324999,
+        "longitude": -51.2303767
+    },
+    "Palmas": {
+        "latitude": -10.1838,
+        "longitude": -48.3339
+    },
+    "Luis Eduardo Magalhaes": {
+        "latitude": -12.0943,
+        "longitude": -45.7936
+    },
+    "Belem, Brazil": {
+        "latitude": -1.45056,
+        "longitude": -48.4682453
+    },
+    "Goiania, Brazil": {
+        "latitude": -16.680882,
+        "longitude": -49.2532691
+    },
+    "Guarulhos, Brazil": {
+        "latitude": -23.4675941,
+        "longitude": -46.5277704
+    },
+    "Campinas, Brazil": {
+        "latitude": -22.9056391,
+        "longitude": -47.059564
+    },
+    "Sao Luis, Brazil": {
+        "latitude": -2.5295265,
+        "longitude": -44.2963942
+    },
+    "Sao Goncalo, Brazil": {
+        "latitude": -22.8219014,
+        "longitude": -43.0309252
+    },
+    "Maceio, Brazil": {
+        "latitude": -9.6476843,
+        "longitude": -35.7339264
+    },
+    "Duque de Caxias, Brazil": {
+        "latitude": -22.7896225,
+        "longitude": -43.309929
+    },
+    "Natal, Brazil": {
+        "latitude": -5.805398,
+        "longitude": -35.2080905
+    },
+    "Teresina, Brazil": {
+        "latitude": -5.0874608,
+        "longitude": -42.8049571
+    },
+    "Sao Bernardo do Campo, Brazil": {
+        "latitude": -23.7080345,
+        "longitude": -46.5506747
+    },
+    "Campo Grande, Brazil": {
+        "latitude": -20.4640173,
+        "longitude": -54.6162947
+    },
+    "Jaboatao dos Guararapes, Brazil": {
+        "latitude": -8.1752476,
+        "longitude": -34.9468716
+    },
+    "Osasco, Brazil": {
+        "latitude": -23.5324859,
+        "longitude": -46.7916801
+    },
+    "Santo Andre, Brazil": {
+        "latitude": -23.6533509,
+        "longitude": -46.5279039
+    },
+    "Joao Pessoa, Brazil": {
+        "latitude": -7.1215981,
+        "longitude": -34.882028
+    },
+    "Jaboatao, Brazil": {
+        "latitude": -8.1752476,
+        "longitude": -34.9468716
+    },
+    "Sao Jose dos Campos, Brazil": {
+        "latitude": -23.1867782,
+        "longitude": -45.8854538
+    },
+    "Ribeirao Preto, Brazil": {
+        "latitude": -21.1776315,
+        "longitude": -47.8100983
+    },
+    "Uberlandia, Brazil": {
+        "latitude": -18.9188041,
+        "longitude": -48.2767837
+    },
+    "Contagem, Brazil": {
+        "latitude": -19.9132749,
+        "longitude": -44.0840953
+    },
+    "Sorocaba, Brazil": {
+        "latitude": -23.5003451,
+        "longitude": -47.4582864
+    },
+    "Aracaju, Brazil": {
+        "latitude": -10.9162061,
+        "longitude": -37.0774655
+    },
+    "Feira de Santana, Brazil": {
+        "latitude": -12.2578934,
+        "longitude": -38.9598047
+    },
+    "Cuiaba, Brazil": {
+        "latitude": -15.5986686,
+        "longitude": -56.0991301
+    },
+    "Joinville, Brazil": {
+        "latitude": -26.3044898,
+        "longitude": -48.8486726
+    },
+    "Juiz de Fora, Brazil": {
+        "latitude": -21.7609533,
+        "longitude": -43.3501129
+    },
+    "Londrina, Brazil": {
+        "latitude": -23.3112878,
+        "longitude": -51.1595023
+    },
+    "Aparecida de Goiania, Brazil": {
+        "latitude": -16.8226769,
+        "longitude": -49.2452546
+    },
+    "Ananindeua, Brazil": {
+        "latitude": -1.374035,
+        "longitude": -48.4016623
+    },
+    "Niteroi, Brazil": {
+        "latitude": -22.8884,
+        "longitude": -43.1147
+    },
+    "Belford Roxo, Brazil": {
+        "latitude": -22.7667284,
+        "longitude": -43.4033603
+    },
+    "Campos dos Goytacazes, Brazil": {
+        "latitude": -21.7546,
+        "longitude": -41.3242
+    },
+    "Sao Joao de Meriti, Brazil": {
+        "latitude": -22.8043744,
+        "longitude": -43.3724125
+    },
+    "Diadema, Brazil": {
+        "latitude": -23.6866428,
+        "longitude": -46.6246935
+    },
+    "Carapicuiba, Brazil": {
+        "latitude": -23.5234673,
+        "longitude": -46.8406808
+    },
+    "Maringa, Brazil": {
+        "latitude": -23.425269,
+        "longitude": -51.9382078
+    },
+    "Caucaia, Brazil": {
+        "latitude": -3.7300563,
+        "longitude": -38.6593082
+    },
+    "Vitoria, Brazil": {
+        "latitude": -20.3200917,
+        "longitude": -40.3376682
+    }
+}
