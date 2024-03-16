@@ -92,6 +92,35 @@ folium.plugins.HeatMap(
     blur=15,
 ).add_to(mapa)
 
+
+def add_categorical_legend(map_obj, title, colors, labels):
+    legend_html = """
+        <div style="position:fixed; bottom:50px; right:50px; z-index:9999; font-size:14px;">
+          <p><strong>{}</strong></p>
+          {}
+        </div>
+        """.format(
+        title,
+        "<br>".join(
+            [
+                '<i class="fa fa-circle fa-1x" style="color:{}"></i> {}'.format(
+                    color, label
+                )
+                for color, label in zip(colors, labels)
+            ]
+        ),
+    )
+    map_obj.get_root().html.add_child(folium.Element(legend_html))
+
+
+# Adiciona a legenda ao mapa
+add_categorical_legend(
+    mapa,
+    "Qualidade do Ar",
+    colors=["#2b8318", "#abdda4", "#ffffbf", "#fdae61", "#d7191c"],
+    labels=["Bom", "Razoável", "Moderado", "Ruim", "Muito Ruim"],
+)
+
 # Exibir o mapa
 st.subheader(f"Mapa Qualidade do Ar: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 st.markdown(
@@ -106,27 +135,6 @@ col1, col2 = st.columns([3.5, 3])
 # Exibir o mapa na primeira coluna
 with col1:
     folium_static(mapa)
-
-    # Adiciona marcadores coloridos com legendas ao mapa
-    folium.Marker(
-        location=[-14.5, -48.0], icon=folium.Icon(color="green"), popup="Bom"
-    ).add_to(mapa)
-
-    folium.Marker(
-        location=[-15.0, -47.5], icon=folium.Icon(color="yellow"), popup="Razoável"
-    ).add_to(mapa)
-
-    folium.Marker(
-        location=[-15.5, -47.0], icon=folium.Icon(color="orange"), popup="Moderado"
-    ).add_to(mapa)
-
-    folium.Marker(
-        location=[-16.0, -46.5], icon=folium.Icon(color="red"), popup="Ruim"
-    ).add_to(mapa)
-
-    folium.Marker(
-        location=[-16.5, -46.0], icon=folium.Icon(color="darkred"), popup="Muito Ruim"
-    ).add_to(mapa)
 
 
 with col2:
