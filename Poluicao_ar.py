@@ -106,25 +106,27 @@ col1, col2 = st.columns([3.5, 3])
 # Exibir o mapa na primeira coluna
 with col1:
     folium_static(mapa)
-    # Exibir a legenda
-    legend_html = """
-     <div style="
-     position: fixed; 
-     bottom: 50px; left: 50px; width: 120px; height: 150px; 
-     border:2px solid grey; z-index:9999; font-size:14px;
-     background-color: rgba(255, 255, 255, 0.6);
-     ">
-     &nbsp; Legenda <br>
-     &nbsp; Bom &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#2b8318"></i><br>
-     &nbsp; Razóavel &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#abdda4"></i><br>
-     &nbsp; Moderado &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#ffffbf"></i><br>
-     &nbsp; Ruim &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#fdae61"></i><br>
-     &nbsp; Muito Ruim &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#d7191c"></i>
-      </div>
-     """
 
-    # Adicionar a legenda ao mapa
-    mapa.get_root().html.add_child(folium.Element(legend_html))
+    # Adiciona marcadores coloridos com legendas ao mapa
+    folium.Marker(
+        location=[-14.5, -48.0], icon=folium.Icon(color="green"), popup="Bom"
+    ).add_to(mapa)
+
+    folium.Marker(
+        location=[-15.0, -47.5], icon=folium.Icon(color="yellow"), popup="Razoável"
+    ).add_to(mapa)
+
+    folium.Marker(
+        location=[-15.5, -47.0], icon=folium.Icon(color="orange"), popup="Moderado"
+    ).add_to(mapa)
+
+    folium.Marker(
+        location=[-16.0, -46.5], icon=folium.Icon(color="red"), popup="Ruim"
+    ).add_to(mapa)
+
+    folium.Marker(
+        location=[-16.5, -46.0], icon=folium.Icon(color="darkred"), popup="Muito Ruim"
+    ).add_to(mapa)
 
 
 with col2:
