@@ -126,8 +126,6 @@ col1, col2 = st.columns([3.5, 3])
 
 # Exibir o mapa na primeira coluna
 with col1:
-    folium_static(mapa)
-
     # Adiciona a legenda ao mapa
     add_categorical_legend(
         mapa,
@@ -135,6 +133,7 @@ with col1:
         colors=["#2b8318", "#abdda4", "#ffffbf", "#fdae61", "#d7191c"],
         labels=["Bom", "Razoável", "Moderado", "Ruim", "Muito Ruim"],
     )
+    folium_static(mapa)
 
 
 with col2:
