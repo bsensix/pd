@@ -113,14 +113,6 @@ def add_categorical_legend(map_obj, title, colors, labels):
     map_obj.get_root().html.add_child(folium.Element(legend_html))
 
 
-# Adiciona a legenda ao mapa
-add_categorical_legend(
-    mapa,
-    "Qualidade do Ar",
-    colors=["#2b8318", "#abdda4", "#ffffbf", "#fdae61", "#d7191c"],
-    labels=["Bom", "Razoável", "Moderado", "Ruim", "Muito Ruim"],
-)
-
 # Exibir o mapa
 st.subheader(f"Mapa Qualidade do Ar: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 st.markdown(
@@ -135,6 +127,14 @@ col1, col2 = st.columns([3.5, 3])
 # Exibir o mapa na primeira coluna
 with col1:
     folium_static(mapa)
+
+    # Adiciona a legenda ao mapa
+    add_categorical_legend(
+        mapa,
+        "Qualidade do Ar",
+        colors=["#2b8318", "#abdda4", "#ffffbf", "#fdae61", "#d7191c"],
+        labels=["Bom", "Razoável", "Moderado", "Ruim", "Muito Ruim"],
+    )
 
 
 with col2:
