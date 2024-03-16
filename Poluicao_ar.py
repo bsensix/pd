@@ -4,6 +4,7 @@ from datetime import datetime
 import folium
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import requests
 import streamlit as st
 from streamlit_folium import folium_static
@@ -13,7 +14,7 @@ st.set_page_config(
 )
 
 # Carrega o arquivo JSON
-list_city = r"C:\Users\sensix\Desktop\PESSOAL\PESSOAL\PORTIFOLIO DATA SCIENCE\pd\pd\Dados\city_coordinates.json"
+list_city = r"Dados/city_coordinates.json"
 with open(list_city, "r") as file:
     city_coordinates = json.load(file)
 
@@ -25,7 +26,7 @@ data_list = []
 
 # Exibir mensagem de aviso
 loading_message = st.warning(
-    "Estamos carregando os dados da qualidade do ar para as principais cidades do Brasil utilizando a API da Open Weather. Em apenas alguns segundos, você terá acesso ao mapa atualizado da qualidade do ar!"
+    "Estamos carregando os dados de qualidade do ar para as principais cidades do Brasil utilizando a API da Open Weather. Em apenas alguns segundos, você terá acesso ao mapa atualizado da qualidade do ar!"
 )
 
 # Inicia o loop sobre as chaves do dicionário city_coordinates
@@ -96,8 +97,11 @@ st.subheader(f"Mapa Qualidade do Ar: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 st.markdown(
     "O índice de Qualidade do ar (AQI) é gerado através da análise dos poluentes, Monóxido de Carbono (CO), Monóxido de Nitrogênio (NO), Dióxido de Nitrogênio (NO2), Ozônio (O3), Dióxido de Enxofre (SO2), Amônia (NH3), e partículas (PM2.5 e PM10)."
 )
+st.markdown(
+    "Abaixo o mapa do AQI e o gráfico com os valores de cada poluente por cidade!"
+)
 
-col1, col2 = st.columns([2, 3])
+col1, col2 = st.columns([3.5, 3])
 
 # Exibir o mapa na primeira coluna
 with col1:
@@ -105,7 +109,7 @@ with col1:
     # Exibir a legenda
     st.markdown(
         """
-        <div style="position: fixed; bottom: 210px; left: 100px; background-color: rgba(195, 195, 195,0.45);
+        <div style="position: fixed; bottom: 230px; left: 100px; background-color: rgba(195, 195, 195,0.45);
         border-radius: 5px; padding: 10px; z-index: 1000; font-size: 14px;">
         <p><strong>Legenda:</strong></p>
         <p><span style="color: #2b8318;">Bom</span> </p>
@@ -158,6 +162,17 @@ with col2:
         line_color="red",
         annotation_text=f"Média: {average_value:.2f}",
         annotation_position="bottom right",
+    )
+
+    # Adicionar uma legenda para a linha média
+    fig.add_trace(
+        go.Scatter(
+            x=selected_data["City"],
+            y=[average_value] * len(selected_data["City"]),
+            mode="lines",
+            name="Média",
+            line=dict(color="red", width=1, dash="dash"),
+        )
     )
 
     st.plotly_chart(fig)
