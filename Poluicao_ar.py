@@ -107,20 +107,24 @@ col1, col2 = st.columns([3.5, 3])
 with col1:
     folium_static(mapa)
     # Exibir a legenda
-    st.markdown(
-        """
-        <div style="position: fixed; bottom: 230px; left: 100px; background-color: rgba(195, 195, 195,0.45);
-        border-radius: 5px; padding: 10px; z-index: 1000; font-size: 14px;">
-        <p><strong>Legenda:</strong></p>
-        <p><span style="color: #2b8318;">Bom</span> </p>
-        <p><span style="color: #abdda4;">Razóavel</span> </p>
-        <p><span style="color: #ffffbf;">Moderado</span> </p>
-        <p><span style="color: #fdae61;">Ruim</span> </p>
-        <p><span style="color: #d7191c;">Muito Ruim</span> </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    legend_html = """
+     <div style="
+     position: fixed; 
+     bottom: 50px; left: 50px; width: 120px; height: 150px; 
+     border:2px solid grey; z-index:9999; font-size:14px;
+     background-color: rgba(255, 255, 255, 0.6);
+     ">
+     &nbsp; Legenda <br>
+     &nbsp; Bom &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#2b8318"></i><br>
+     &nbsp; Razóavel &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#abdda4"></i><br>
+     &nbsp; Moderado &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#ffffbf"></i><br>
+     &nbsp; Ruim &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#fdae61"></i><br>
+     &nbsp; Muito Ruim &nbsp; <i class="fa fa-map-marker fa-2x" style="color:#d7191c"></i>
+      </div>
+     """
+
+    # Adicionar a legenda ao mapa
+    mapa.get_root().html.add_child(folium.Element(legend_html))
 
 
 with col2:

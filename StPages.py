@@ -10,7 +10,7 @@ show_pages(
         Page(
             "Identificação de Pivôs - Interface.py", "Identificação de Círculos", "🔘"
         ),
-        Page("Poluicao_ar.py", "Poluição do Ar Brasil", "🌫️"),
+        Page("Poluicao_ar.py", "Poluição do Ar (OpenWeather)", "🌫️"),
         Page("Analise Descritiva de Dados.py", "Análise Descritiva de Dados", "📊"),
         Page("Dados NBA.py", "Previsão de Total Pontos NBA", "🏀"),
         Page("Trafego Pago.py", "Análise Dados Tráfego Pago (Looker)", "🧑‍💻"),
