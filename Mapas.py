@@ -33,5 +33,18 @@ with st.expander("🛰️ Índices Espectrais"):
     image = Image.open(r"Dados/ANTES_DEPOIS_CO2.png")
     st.image(image)
 
+with st.expander("🏙️ Mapas Cidades"):
+    st.write("Capitólio - MG")
+    image = Image.open(r"Dados/Mapa Capitolio.jpeg")
+    st.image(image)
+
+    st.write("Uberlândia - MG")
+    image = Image.open(r"Dados/Udia.jpeg")
+    st.image(image)
+
+    st.write("Franca - SP")
+    image = Image.open(r"Dados/franca.jpeg")
+    st.image(image)
+
 
 # In[ ]:
