@@ -7,6 +7,7 @@ show_pages(
         Page(
             "Página - GEE - Download de Imagens.py", "Download de Imagens no GEE", "🌎"
         ),
+        Page("Classificador_feijoes.py", "Feijões Estrgados - Tensor Flow", "🫘"),
         Page(
             "Identificação de Pivôs - Interface.py", "Identificação de Círculos", "🔘"
         ),
