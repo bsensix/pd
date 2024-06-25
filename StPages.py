@@ -20,4 +20,4 @@ show_pages(
     ]
 )
 
-add_page_title("Teste")  # Optional method to add title and icon to current page
+add_page_title()  # Optional method to add title and icon to current page
