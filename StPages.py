@@ -11,6 +11,7 @@ show_pages(
         Page(
             "Identificação de Pivôs - Interface.py", "Identificação de Círculos", "🔘"
         ),
+        Page("Resumo_camarada.py", "Assistente financeiro (IA)", "👨‍💼"),
         Page("Poluicao_ar.py", "Poluição do Ar (OpenWeather)", "🌫️"),
         Page("Analise Descritiva de Dados.py", "Análise Descritiva de Dados", "📊"),
         Page("Dados NBA.py", "Previsão de Total Pontos NBA", "🏀"),
@@ -19,4 +20,4 @@ show_pages(
     ]
 )
 
-add_page_title()  # Optional method to add title and icon to current page
+add_page_title("Teste")  # Optional method to add title and icon to current page
