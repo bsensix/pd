@@ -13,43 +13,43 @@ p4 = st.Page(
     icon=":material/workspaces:",
 )
 p5 = st.Page(
-    "pages/Identificação de Pivôs - Interface.py.",
+    "pages/Identificação de Pivôs - Interface.py",
     title="Identificação de Círculos - Open CV",
     icon=":material/radio_button_unchecked:",
 )
 
 p6 = st.Page(
-    "pages/Dados NBA.py.",
+    "pages/Dados NBA.py",
     title="Previsão de Total Pontos - NBA",
     icon=":material/sports_basketball:",
 )
 
 p7 = st.Page(
-    "pages/Poluicao_ar.py.",
+    "pages/Poluicao_ar.py",
     title="Poluição do Ar no Brasil",
     icon=":material/air:",
 )
 
 p8 = st.Page(
-    "pages/Analise Descritiva de Dados.py.",
+    "pages/Analise Descritiva de Dados.py",
     title="Análise Descritiva de Dados - FIFA 24",
     icon=":material/sports_and_outdoors:",
 )
 
 p9 = st.Page(
-    "pages/Resumo_camarada.py.",
+    "pages/Resumo_camarada.py",
     title="Assistente financeiro - LangChain",
     icon=":material/support_agent:",
 )
 
 p10 = st.Page(
-    "pages/Incendios.py.",
+    "pages/Incendios.py",
     title="Dados de Queimadas (Power BI)",
     icon=":material/local_fire_department:",
 )
 
 p11 = st.Page(
-    "pages/Trafego Pago.py.",
+    "pages/Trafego Pago.py",
     title="Análise Dados Tráfego Pago (Looker)",
     icon=":material/smartphone:",
 )
