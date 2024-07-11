@@ -8,7 +8,7 @@ p3 = st.Page(
     icon=":material/travel_explore:",
 )
 p4 = st.Page(
-    "pages/Classificador_feijoes.py.",
+    "pages/Classificador_feijoes.py",
     title="Feijões Estragados - Tensor Flow",
     icon=":material/workspaces:",
 )
