@@ -1,23 +1,68 @@
-from st_pages import Page, add_page_title, show_pages
+import streamlit as st
 
-show_pages(
-    [
-        Page("Sobre Mim.py", "Sobre Mim", "🏠"),
-        Page("Mapas.py", "Mapas", "🗺️"),
-        Page(
-            "Página - GEE - Download de Imagens.py", "Download de Imagens no GEE", "🌎"
-        ),
-        Page("Classificador_feijoes.py", "Feijões Estragados - Tensor Flow", "🫘"),
-        Page(
-            "Identificação de Pivôs - Interface.py", "Identificação de Círculos", "🔘"
-        ),
-        Page("Resumo_camarada.py", "Assistente financeiro (IA)", "👨‍💼"),
-        Page("Poluicao_ar.py", "Poluição do Ar (OpenWeather)", "🌫️"),
-        Page("Analise Descritiva de Dados.py", "Análise Descritiva de Dados", "📊"),
-        Page("Dados NBA.py", "Previsão de Total Pontos NBA", "🏀"),
-        Page("Trafego Pago.py", "Análise Dados Tráfego Pago (Looker)", "🧑‍💻"),
-        Page("Incendios.py", "Dados de Queimadas (Power BI)", "🔥"),
-    ]
+p1 = st.Page("pages/Sobre Mim.py", title="Sobre Mim", icon=":material/home:")
+p2 = st.Page("pages/Mapas.py", title="Mapas", icon=":material/map:")
+p3 = st.Page(
+    "pages/Página - GEE - Download de Imagens.py",
+    title="Download de Imagens no GEE",
+    icon=":material/travel_explore:",
+)
+p4 = st.Page(
+    "pages/Classificador_feijoes.py.",
+    title="Feijões Estragados - Tensor Flow",
+    icon=":material/workspaces:",
+)
+p5 = st.Page(
+    "pages/Identificação de Pivôs - Interface.py.",
+    title="Identificação de Círculos - Open CV",
+    icon=":material/radio_button_unchecked:",
 )
 
-add_page_title()  # Optional method to add title and icon to current page
+p6 = st.Page(
+    "pages/Dados NBA.py.",
+    title="Previsão de Total Pontos - NBA",
+    icon=":material/sports_basketball:",
+)
+
+p7 = st.Page(
+    "pages/Poluicao_ar.py.",
+    title="Poluição do Ar no Brasil",
+    icon=":material/air:",
+)
+
+p8 = st.Page(
+    "pages/Analise Descritiva de Dados.py.",
+    title="Análise Descritiva de Dados - FIFA 24",
+    icon=":material/sports_and_outdoors:",
+)
+
+p9 = st.Page(
+    "pages/Resumo_camarada.py.",
+    title="Assistente financeiro - LangChain",
+    icon=":material/support_agent:",
+)
+
+p10 = st.Page(
+    "pages/Incendios.py.",
+    title="Dados de Queimadas (Power BI)",
+    icon=":material/local_fire_department:",
+)
+
+p11 = st.Page(
+    "pages/Trafego Pago.py.",
+    title="Análise Dados Tráfego Pago (Looker)",
+    icon=":material/smartphone:",
+)
+
+pg = st.navigation(
+    {
+        "Página Inicial": [p1],
+        "Geoprocessamento": [p2, p3, p7],
+        "Visão Computacional": [p4, p5],
+        "Análise de Dados": [p6, p8],
+        "Inteligência Artificial": [p9],
+        "Visualização de Dados": [p10, p11],
+    }
+)
+
+pg.run()
