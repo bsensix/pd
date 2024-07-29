@@ -171,3 +171,9 @@ with st.expander("Machine Learning | Deep Learning | inteligência Artificial"):
     link_name = "Machine Learning - CLASSIFICAÇÃO COM SKLEARN"
     link_url = "https://cursos.alura.com.br/certificate/breno-1697/machine-learning-introducao-a-classificacao-com-sklearn"
     st.markdown(f"[{link_name}]({link_url})")
+
+
+with st.expander("Data Science Professional Certificate | IBM"):
+    link_name = "Certificate Data Science"
+    link_url = "https://www.coursera.org/account/accomplishments/professional-cert/Y78F3BDMKH4C"
+    st.markdown(f"[{link_name}]({link_url})")
