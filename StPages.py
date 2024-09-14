@@ -54,10 +54,16 @@ p11 = st.Page(
     icon=":material/smartphone:",
 )
 
+p12 = st.Page(
+    "pages/VectorStats.py",
+    title="Plugin QGIS - Vector Stats",
+    icon=":material/extension:",
+)
+
 pg = st.navigation(
     {
         "Página Inicial": [p1],
-        "Geoprocessamento": [p2, p3, p7],
+        "Geoprocessamento": [p2, p3, p7, p12],
         "Visão Computacional": [p4, p5],
         "Análise de Dados": [p6, p8],
         "Inteligência Artificial": [p9],
