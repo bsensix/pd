@@ -1,6 +1,6 @@
 import streamlit as st
 
-p1 = st.Page("pages/Sobre Mim.py", title="Sobre Mim", icon=":material/home:")
+p1 = st.Page("pages/Sobre Mim.py", title="Breno Nunes", icon=":material/home:")
 p2 = st.Page("pages/Mapas.py", title="Mapas", icon=":material/map:")
 p3 = st.Page(
     "pages/Página - GEE - Download de Imagens.py",
@@ -60,9 +60,28 @@ p12 = st.Page(
     icon=":material/extension:",
 )
 
+p13 = st.Page(
+    "pages/tools.py",
+    title="Tecnologias",
+    icon=":material/construction:",
+)
+
+p14 = st.Page(
+    "pages/artigos.py",
+    title="Artigos e Cursos",
+    icon=":material/article:",
+)
+
+p15 = st.Page(
+    "pages/certificados.py",
+    title="Certificados",
+    icon=":material/task:",
+)
+
+
 pg = st.navigation(
     {
-        "Página Inicial": [p1],
+        "Sobre mim": [p1, p13, p14, p15],
         "Geoprocessamento": [p2, p3, p7, p12],
         "Visão Computacional": [p4, p5],
         "Análise de Dados": [p6, p8],
