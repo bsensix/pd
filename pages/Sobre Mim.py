@@ -31,9 +31,6 @@ with col1:
     col1.link_button(
         "🤖 Inteligência Artificial", "https://brenonunes.streamlit.app/Resumo_camarada"
     )
-    col1.link_button(
-        "📊 Visualização de dados", "https://brenonunes.streamlit.app/Incendios"
-    )
 
     col1.markdown("**Contatos**")
     col1.markdown("- [Github](https://github.com/bsensix)")
