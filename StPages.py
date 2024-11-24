@@ -78,15 +78,20 @@ p15 = st.Page(
     icon=":material/task:",
 )
 
+p16 = st.Page(
+    "pages/lines.py",
+    title="Identificação de Linhas - Ski Image",
+    icon=":material/process_chart:",
+)
+
 
 pg = st.navigation(
     {
         "Sobre mim": [p1, p13, p14, p15],
         "Geoprocessamento": [p2, p3, p7, p12],
-        "Visão Computacional": [p4, p5],
-        "Análise de Dados": [p6, p8],
+        "Visão Computacional": [p4, p5, p16],
+        "Análise de Dados": [p6, p8, p10, p11],
         "Inteligência Artificial": [p9],
-        "Visualização de Dados": [p10, p11],
     }
 )
 
