@@ -15,3 +15,4 @@ streamlit_folium==0.18.0
 scikit-image==0.20.0
 sqlalchemy==1.4.54
 pandasai==2.4.2
+psycopg2-binary==2.9.1
