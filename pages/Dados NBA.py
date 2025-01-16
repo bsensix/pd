@@ -8,11 +8,11 @@ from sqlalchemy import create_engine
 pandas_ai_key = st.secrets["general"]["PANDAS_AI_KEY"]
 os.environ["PANDASAI_API_KEY"] = pandas_ai_key
 
-usuario = st.secrets["general"]["USUARIO"]
-senha = st.secrets["general"]["SENHA"]
-host = st.secrets["general"]["HOST"]
-port = st.secrets["general"]["PORT"]
-database = st.secrets["general"]["DATABASE"]
+usuario = st.secrets["database"]["USUARIO"]
+senha = st.secrets["database"]["SENHA"]
+host = st.secrets["database"]["HOST"]
+port = st.secrets["database"]["PORT"]
+database = st.secrets["database"]["DATABASE"]
 
 # Conectar ao banco de dados
 engine = create_engine(
