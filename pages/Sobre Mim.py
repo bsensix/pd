@@ -20,22 +20,92 @@ with col1:
         Além disso, sou um entusiasta de esportes e aplico algumas análises em esportes como Futebol e Basquete. Na aba à esquerda, você encontrará alguns desses projetos e abaixo as áreas nas quais tenho experiência.
         """
     )
-    col1.link_button("🛰️ Geoprocessamento", "https://brenonunes.streamlit.app/Mapas")
-    col1.link_button(
-        "👁️ Visão computacional",
-        "https://brenonunes.streamlit.app/Classificador_feijoes",
-    )
-    col1.link_button(
-        "🎲 Análise de dados", "https://brenonunes.streamlit.app/Dados_NBA"
-    )
-    col1.link_button(
-        "🤖 Inteligência Artificial", "https://brenonunes.streamlit.app/Resumo_camarada"
+
+    st.markdown(
+        """
+        <style>
+        .custom-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 25px;
+            box-shadow: 3px 5px 10px 0px rgba(128, 128, 128, 0.245);
+            border: none;
+            cursor: pointer;
+        }
+        .custom-button:hover {
+            background-color: #F0F2F6;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
     )
 
+    # Criando colunas para os botões
+    btn_col1, btn_col2, btn_col3, btn_col4, btn_col5 = st.columns(5)
+
+    with btn_col1:
+        st.markdown(
+            """
+            <a href="https://brenonunes.streamlit.app/Mapas" target="_blank">
+                <button class="custom-button">
+                    🛰️ Geoprocessamento
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True,
+        )
+    with btn_col2:
+        st.markdown(
+            """
+            <a href="https://brenonunes.streamlit.app/Classificador_feijoes" target="_blank">
+                <button class="custom-button">
+                    👁️ Visão computacional
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True,
+        )
+    with btn_col3:
+        st.markdown(
+            """
+            <a href="https://brenonunes.streamlit.app/Dados_NBA" target="_blank">
+                <button class="custom-button">
+                    📊 Análise de dados
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True,
+        )
+    with btn_col4:
+        st.markdown(
+            """
+            <a href="https://brenonunes.streamlit.app/Resumo_camarada" target="_blank">
+                <button class="custom-button">
+                    🤖 Inteligência Artificial
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True,
+        )
+    with btn_col5:
+        st.markdown(
+            """
+            <a href="https://brenonunestest.streamlit.app/nba_database" target="_blank">
+                <button class="custom-button">
+                    ⚙️ Engenharia de dados
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    col1.markdown("")
     col1.markdown("**Contatos**")
     col1.markdown("- [Github](https://github.com/bsensix)")
     col1.markdown("- [Linkedin](https://www.linkedin.com/in/breno-nunes-b595781ba/)")
     col1.markdown("- [E-mail](mailto:breno_1697@hotmail.com)")
+
 
 with col2:
     image = Image.open(r"Dados/Perfil.png")
