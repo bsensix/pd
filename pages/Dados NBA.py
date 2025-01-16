@@ -5,14 +5,14 @@ import streamlit as st
 from pandasai import SmartDataframe as SmartDataFrame
 from sqlalchemy import create_engine
 
-pandas_ai_key = st.secrets["general"]["pandas_ai_key"]
+pandas_ai_key = st.secrets["general"]["PANDAS_AI_KEY"]
 os.environ["PANDASAI_API_KEY"] = pandas_ai_key
 
-usuario = st.secrets["general"]["usario"]
-senha = st.secrets["general"]["senha"]
-host = st.secrets["general"]["host"]
-port = st.secrets["general"]["porta"]
-database = st.secrets["general"]["banco"]
+usuario = st.secrets["general"]["USUARIO"]
+senha = st.secrets["general"]["SENHA"]
+host = st.secrets["general"]["HOST"]
+port = st.secrets["general"]["PORT"]
+database = st.secrets["general"]["DATABASE"]
 
 # Conectar ao banco de dados
 engine = create_engine(
