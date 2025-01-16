@@ -1,4 +1,4 @@
-Pillow==9.2.0
+Pillow==10.1.0
 opencv-python-headless==4.6.0.66
 matplotlib==3.7.1
 nba_api==1.4.1
