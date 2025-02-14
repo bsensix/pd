@@ -1,12 +1,12 @@
-import os
-
 import pandas as pd
+import pandasai as pai
 import streamlit as st
 from pandasai import SmartDataframe as SmartDataFrame
 from sqlalchemy import create_engine
 
-pandas_ai_key = st.secrets["general"]["PANDAS_AI_KEY"]
-os.environ["PANDASAI_API_KEY"] = pandas_ai_key
+# Configurar a chave da API
+pai_api_key = st.secrets["general"]["PANDAS_AI_KEY"]
+pai.config.api_key = pai_api_key
 
 usuario = st.secrets["database"]["USUARIO"]
 senha = st.secrets["database"]["SENHA"]
