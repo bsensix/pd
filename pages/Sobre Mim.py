@@ -91,42 +91,42 @@ with tab1:
                 <div class="card" style="width: 250px;">
                     <div class="card-title">Geoprocessamento 🛰️</div>
                     <div class="card-description">Plugin do Software QGIS - VectorStats</div>
-                    <a href="https://brenonunes.streamlit.app/Projeto1" target="_blank">
+                    <a href="https://brenonunes.streamlit.app/VectorStats" target="_blank">
                         <button class="custom-button">Ver Projeto</button>
                     </a>
                 </div>
                 <div class="card" style="width: 250px;">
                     <div class="card-title">Visão computacional 👁️</div>
                     <div class="card-description">Analise de feijões estragados</div>
-                    <a href="https://brenonunes.streamlit.app/Projeto2" target="_blank">
+                    <a href="https://brenonunes.streamlit.app/Classificador_feijoes" target="_blank">
                         <button class="custom-button">Ver Projeto</button>
                     </a>
                 </div>
                 <div class="card" style="width: 250px;">
                     <div class="card-title">Análise de dados 📊</div>
                     <div class="card-description">Dashboard dados Queimadas</div>
-                    <a href="https://brenonunes.streamlit.app/Projeto3" target="_blank">
+                    <a href="https://brenonunes.streamlit.app/Incendios" target="_blank">
                         <button class="custom-button">Ver Projeto</button>
                     </a>
                 </div>
                 <div class="card" style="width: 250px;">
                     <div class="card-title">Inteligência artificial 🤖</div>
                     <div class="card-description"> Agente financeiro</div>
-                    <a href="https://brenonunes.streamlit.app/Projeto4" target="_blank">
+                    <a href="https://brenonunes.streamlit.app/Resumo_camarada" target="_blank">
                         <button class="custom-button">Ver Projeto</button>
                     </a>
                 </div>
                 <div class="card" style="width: 250px;">
                     <div class="card-title">Engenharia de dados ⚙️</div>
                     <div class="card-description">Pipeline de dados NBA</div>
-                    <a href="https://brenonunes.streamlit.app/Projeto5" target="_blank">
+                    <a href="https://brenonunes.streamlit.app/nba_database" target="_blank">
                         <button class="custom-button">Ver Projeto</button>
                     </a>
                     </div>
                 <div class="card" style="width: 250px;">
                     <div class="card-title">Machine learning 🦾</div>
                     <div class="card-description">Modelos preditivos</div>
-                    <a href="https://brenonunes.streamlit.app/Projeto5" target="_blank">
+                    <a href="https://brenonunes.streamlit.app/ndvi_prediction_sentinel" target="_blank">
                         <button class="custom-button">Ver Projeto</button>
                     </a>
                 </div>
