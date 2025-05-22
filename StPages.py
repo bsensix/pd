@@ -60,24 +60,6 @@ p12 = st.Page(
     icon=":material/extension:",
 )
 
-p13 = st.Page(
-    "pages/tools.py",
-    title="Tecnologias",
-    icon=":material/construction:",
-)
-
-p14 = st.Page(
-    "pages/artigos.py",
-    title="Artigos e Cursos",
-    icon=":material/article:",
-)
-
-p15 = st.Page(
-    "pages/certificados.py",
-    title="Certificados",
-    icon=":material/task:",
-)
-
 p16 = st.Page(
     "pages/lines.py",
     title="Identificação de Linhas - Ski Image",
@@ -90,12 +72,31 @@ p17 = st.Page(
     icon=":material/database:",
 )
 
+p18 = st.Page(
+    "pages/ml_arpu.py",
+    title="Previsão de ofertas de cupons",
+    icon=":material/local_activity:",
+)
+
+p19 = st.Page(
+    "pages/ndvi_prediction_sentinel.py",
+    title="Predição de NDVI - Sentinel 1 e 2 ",
+    icon=":material/satellite:",
+)
+
+p20 = st.Page(
+    "pages/billing_forecast.py",
+    title="Potencial de Faturamento",
+    icon=":material/location_city:",
+)
+
 
 pg = st.navigation(
     {
-        "Sobre mim": [p1, p13, p14, p15],
+        "Sobre mim": [p1],
         "Geoprocessamento": [p2, p3, p7, p12],
         "Visão Computacional": [p4, p5, p16],
+        "Machine Learning": [p18, p19, p20],
         "Análise de Dados": [p8, p10, p11],
         "Inteligência Artificial": [p9, p6],
         "Engenharia de Dados": [p17],
