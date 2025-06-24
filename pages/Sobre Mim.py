@@ -26,114 +26,18 @@ with tab1:
         st.markdown("## Bem-vindo ao meu **portfólio**!")
         st.markdown(
             """
-            Sou formado em Engenharia Ambiental pela (UFU) e atualmente trabalho como **Cientista de Dados**, especializado em análises de dados aplicados à **Agricultura e Meio Ambiente**. 
-            Além disso, sou um entusiasta de esportes e aplico algumas análises em esportes como Futebol e Basquete. Na aba à esquerda, você encontrará alguns desses projetos e abaixo as áreas nas quais tenho experiência, com projetos recentes.
+            Sou **Breno Nunes**, Engenheiro Ambiental formado pela UFU e atuo como **Cientista de Dados** na Sensix. Tenho experiência sólida em projetos de análise de dados, machine learning, geoprocessamento e inteligência artificial, com foco em soluções para **Agricultura, Meio Ambiente e Negócios**.
+
+            Ao longo da minha trajetória, desenvolvi habilidades em manipulação e visualização de dados, modelagem preditiva, integração de dados geoespaciais e automação de processos analíticos. Trabalho com ferramentas como Python, Pandas, Scikit-learn, Streamlit, Power BI, QGIS, além de tecnologias de cloud e bancos de dados.
+    
+            Sou apaixonado por inovação, tecnologia e esportes, e busco sempre aplicar conhecimento analítico para gerar valor e insights em diferentes áreas.
+            
+            Explore as abas acima para conhecer meus projetos, experiências e certificações!
             """
         )
     with col2:
         image = Image.open(r"Dados/Perfil.png")
         st.image(image, width=200)
-
-        st.markdown(
-            """
-    <style>
-    .scrolling-wrapper {
-        display: flex;
-        overflow-x: auto;
-        padding: 10px;
-        white-space: nowrap;
-    }
-    .card {
-        display: inline-block;
-        background-color: #f1f1f1;
-        border-radius: 10px;
-        padding: 10px;
-        margin: 10px;
-        width: 250px;  /* Adjusted width */
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        text-align: center;
-    }
-    .card img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px 10px 0 0;
-    }
-    .card-title {
-        font-size: 16px;  /* Adjusted font size */
-        font-weight: bold;
-        margin: 10px 0;
-    }
-    .card-description {
-        font-size: 13px;  /* Adjusted font size */
-        color: #333;
-        text-align: center;
-    }
-    .custom-button {
-        width: 100%;
-        padding: 8px;
-        font-size: 14px;  /* Adjusted font size */
-        color: white;
-        background-color: #4CAF50;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-    }
-    </style>
-    """,
-            unsafe_allow_html=True,
-        )
-
-    # Create the horizontal scroll with cards
-    st.markdown(
-        """
-            <div class="scrolling-wrapper">
-                <div class="card" style="width: 250px;">
-                    <div class="card-title">Geoprocessamento 🛰️</div>
-                    <div class="card-description">Plugin do Software QGIS - VectorStats</div>
-                    <a href="https://brenonunes.streamlit.app/VectorStats" target="_blank">
-                        <button class="custom-button">Ver Projeto</button>
-                    </a>
-                </div>
-                <div class="card" style="width: 250px;">
-                    <div class="card-title">Visão computacional 👁️</div>
-                    <div class="card-description">Analise de feijões estragados</div>
-                    <a href="https://brenonunes.streamlit.app/Classificador_feijoes" target="_blank">
-                        <button class="custom-button">Ver Projeto</button>
-                    </a>
-                </div>
-                <div class="card" style="width: 250px;">
-                    <div class="card-title">Análise de dados 📊</div>
-                    <div class="card-description">Dashboard dados Queimadas</div>
-                    <a href="https://brenonunes.streamlit.app/Incendios" target="_blank">
-                        <button class="custom-button">Ver Projeto</button>
-                    </a>
-                </div>
-                <div class="card" style="width: 250px;">
-                    <div class="card-title">Inteligência artificial 🤖</div>
-                    <div class="card-description"> Agente financeiro</div>
-                    <a href="https://brenonunes.streamlit.app/Resumo_camarada" target="_blank">
-                        <button class="custom-button">Ver Projeto</button>
-                    </a>
-                </div>
-                <div class="card" style="width: 250px;">
-                    <div class="card-title">Engenharia de dados ⚙️</div>
-                    <div class="card-description">Pipeline de dados NBA</div>
-                    <a href="https://brenonunes.streamlit.app/nba_database" target="_blank">
-                        <button class="custom-button">Ver Projeto</button>
-                    </a>
-                    </div>
-                <div class="card" style="width: 250px;">
-                    <div class="card-title">Machine learning 🦾</div>
-                    <div class="card-description">Modelos preditivos</div>
-                    <a href="https://brenonunes.streamlit.app/ndvi_prediction_sentinel" target="_blank">
-                        <button class="custom-button">Ver Projeto</button>
-                    </a>
-                </div>
-            </div>
-            """,
-        unsafe_allow_html=True,
-    )
 
 with tab2:
     col1, col2, col3 = st.columns(3)
