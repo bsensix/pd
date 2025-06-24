@@ -100,7 +100,8 @@ pg = st.navigation(
         "Análise de Dados": [p8, p10, p11],
         "Inteligência Artificial": [p9, p6],
         "Engenharia de Dados": [p17],
-    }
+    },
+    position="top",
 )
 
 pg.run()
