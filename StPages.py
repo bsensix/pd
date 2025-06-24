@@ -93,13 +93,13 @@ p20 = st.Page(
 
 pg = st.navigation(
     {
-        "Sobre mim": [p1],
-        "Geoprocessamento": [p2, p3, p7, p12],
-        "Visão Computacional": [p4, p5, p16],
-        "Machine Learning": [p18, p19, p20],
-        "Análise de Dados": [p8, p10, p11],
-        "Inteligência Artificial": [p9, p6],
-        "Engenharia de Dados": [p17],
+        "🏠 Sobre mim": [p1],
+        "🗺️ Geoprocessamento": [p2, p3, p7, p12],
+        "🖼️ Visão Computacional": [p4, p5, p16],
+        "🚀 Machine Learning": [p18, p19, p20],
+        "📊 Análise de Dados": [p8, p10, p11],
+        "🧠 Inteligência Artificial": [p9, p6],
+        "🛠️ Engenharia de Dados": [p17],
     },
     position="top",
 )
