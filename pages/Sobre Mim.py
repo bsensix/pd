@@ -20,24 +20,36 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(
     ]
 )
 
+
 with tab1:
     col1, col2 = st.columns([2, 1])
     with col1:
-        st.markdown("## Bem-vindo ao meu **portfólio**!")
         st.markdown(
             """
-            Sou **Breno Nunes**, Engenheiro Ambiental formado pela UFU e atuo como **Cientista de Dados** na Sensix. Tenho experiência sólida em projetos de análise de dados, machine learning, geoprocessamento e inteligência artificial, com foco em soluções para **Agricultura, Meio Ambiente e Negócios**.
-
-            Ao longo da minha trajetória, desenvolvi habilidades em manipulação e visualização de dados, modelagem preditiva, integração de dados geoespaciais e automação de processos analíticos. Trabalho com ferramentas como Python, Pandas, Scikit-learn, Streamlit, Power BI, QGIS, além de tecnologias de cloud e bancos de dados.
-    
-            Sou apaixonado por inovação, tecnologia e esportes, e busco sempre aplicar conhecimento analítico para gerar valor e insights em diferentes áreas.
-            
-            Explore as abas acima para conhecer meus projetos, experiências e certificações!
-            """
+        <div style="background-color:#f8fafc;padding:32px 24px 24px 24px;border-radius:16px;">
+            <h1 style="font-size:2.5rem;font-weight:700;margin-bottom:0.5rem;">Bem-vindo ao meu portfólio!</h1>
+            <p style="font-size:1.2rem;margin-bottom:1rem;">
+                Sou <b>Breno Nunes</b>, Engenheiro Ambiental formado pela UFU e atuo como Cientista de Dados na Sensix. Tenho experiência sólida em projetos de análise de dados, machine learning, geoprocessamento e inteligência artificial, com foco em soluções para. <br><br>
+                <span style="margin-left:10px;">🌾 Agricultura de Precisão</span>
+                <span style="margin-left:10px;">🌱 Agronegócio</span>
+                <span style="margin-left:10px;">🌍 Meio Ambiente</span>
+                <span style="margin-left:10px;">💼 Negócios</span>
+                <span style="margin-left:10px;">⚽ Esportes</span>
+            </p>
+            <br>
+            <p style="font-size:1.2rem;margin-bottom:1rem;">
+                Ao longo da minha trajetória, desenvolvi habilidades em manipulação e visualização de dados, modelagem preditiva, integração de dados geoespaciais e automação de processos analíticos. Trabalho com ferramentas como Python, Pandas, Scikit-learn, Streamlit, Power BI, QGIS, além de tecnologias de cloud e bancos de dados.
+            </p>
+            <p style="font-size:1.2rem;margin-top:1.5rem;">
+                Explore as abas acima para conhecer meus projetos, experiências e certificações!
+            </p>
+        </div>
+        """,
+            unsafe_allow_html=True,
         )
     with col2:
-        image = Image.open(r"Dados/Perfil.png")
-        st.image(image, width=200)
+        image = Image.open(r"Dados/imagem_perfil.png")
+        st.image(image, width=335)
 
 with tab2:
     col1, col2, col3 = st.columns(3)
