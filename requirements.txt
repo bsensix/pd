@@ -5,7 +5,7 @@ nba_api==1.4.1
 numpy==1.24.3
 pandas==1.5.3
 plotly==5.9.0
-rasterio==1.2.10
+rasterio==1.3.10
 seaborn==0.12.2
 scikit-learn==1.3.0
 st_pages==0.4.5
@@ -15,4 +15,4 @@ streamlit_folium==0.18.0
 scikit-image==0.20.0
 sqlalchemy==1.4.54
 pandasai==2.4.2
-psycopg2-binary==2.9.1
+psycopg2-binary==2.9.9
