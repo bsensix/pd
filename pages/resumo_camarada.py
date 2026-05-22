@@ -14,10 +14,10 @@ O mercado de inteligência artificial está em alta, com novas versões de IAs t
 st.write("Abaixo temos alguns resultados do assisente:")
 
 col1, col2, col3 = st.columns(3)
-image1 = Image.open(r"Dados/noticias.png")
+image1 = Image.open(r"dados/noticias.png")
 col1.image(image1)
 
-image2 = Image.open(r"Dados/ações.png")
+image2 = Image.open(r"dados/acoes.png")
 col2.image(image2)
 
 

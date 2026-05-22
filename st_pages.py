@@ -85,45 +85,45 @@ st.markdown(
 
 
 
-p1 = st.Page("pages/Sobre Mim.py", title="Breno Nunes", icon=":material/home:")
-p2 = st.Page("pages/Mapas.py", title="Mapas", icon=":material/map:")
+p1 = st.Page("pages/sobre_mim.py", title="Breno Nunes", icon=":material/home:")
+p2 = st.Page("pages/mapas.py", title="Mapas", icon=":material/map:")
 p3 = st.Page(
-    "pages/Página - GEE - Download de Imagens.py",
+    "pages/pagina_gee_download_de_imagens.py",
     title="Download de Imagens no GEE",
     icon=":material/travel_explore:",
 )
 p4 = st.Page(
-    "pages/Classificador_feijoes.py",
+    "pages/classificador_feijoes.py",
     title="Feijões Estragados - Tensor Flow",
     icon=":material/workspaces:",
 )
 p5 = st.Page(
-    "pages/Identificação de Pivôs - Interface.py",
+    "pages/identificacao_de_pivos_interface.py",
     title="Identificação de Círculos - Open CV",
     icon=":material/radio_button_unchecked:",
 )
 
 p8 = st.Page(
-    "pages/Analise Descritiva de Dados.py",
+    "pages/analise_descritiva_de_dados.py",
     title="Análise Descritiva de Dados - FIFA 24",
     icon=":material/sports_and_outdoors:",
 )
 
 p9 = st.Page(
-    "pages/Resumo_camarada.py",
+    "pages/resumo_camarada.py",
     title="Assistente financeiro - LangChain",
     icon=":material/support_agent:",
 )
 
 
 p11 = st.Page(
-    "pages/Trafego Pago.py",
+    "pages/trafego_pago.py",
     title="Análise Dados Tráfego Pago (Looker)",
     icon=":material/smartphone:",
 )
 
 p12 = st.Page(
-    "pages/VectorStats.py",
+    "pages/vector_stats.py",
     title="Plugin QGIS - Vector Stats",
     icon=":material/extension:",
 )
