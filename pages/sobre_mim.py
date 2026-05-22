@@ -114,5 +114,5 @@ with col1:
     )
 
 with col2:
-    image = Image.open(r"Dados/imagem_perfil.png")
+    image = Image.open(r"dados/imagem_perfil.png")
     st.image(image, width=335)

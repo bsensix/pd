@@ -7,7 +7,7 @@ from skimage import feature
 from skimage.morphology import closing, dilation, skeletonize, square
 from skimage.transform import hough_line, hough_line_peaks
 
-input_image_path = r"Dados/cana2.tif"
+input_image_path = r"dados/cana2.tif"
 src = rasterio.open(input_image_path)
 red_band = src.read(1)
 green_band = src.read(2)

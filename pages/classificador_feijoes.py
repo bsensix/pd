@@ -13,13 +13,13 @@ st.write(
 st.write("Abaixo temos os resultados da classificação:")
 
 col1, col2, col3 = st.columns(3)
-image1 = Image.open(r"Dados/feijoes_classificados1.png")
+image1 = Image.open(r"dados/feijoes_classificados1.png")
 col1.image(image1)
 
-image2 = Image.open(r"Dados/feijoes_classificados2.png")
+image2 = Image.open(r"dados/feijoes_classificados2.png")
 col2.image(image2)
 
-image3 = Image.open(r"Dados/feijoes_classificados3.png")
+image3 = Image.open(r"dados/feijoes_classificados3.png")
 col3.image(image3)
 
 st.write("Link do repositório: https://github.com/bsensix/classificacao_feijoes")
