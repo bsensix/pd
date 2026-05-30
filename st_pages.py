@@ -103,12 +103,6 @@ p5 = st.Page(
     icon=":material/radio_button_unchecked:",
 )
 
-p8 = st.Page(
-    "pages/analise_descritiva_de_dados.py",
-    title="Análise Descritiva de Dados - FIFA 24",
-    icon=":material/sports_and_outdoors:",
-)
-
 p9 = st.Page(
     "pages/resumo_camarada.py",
     title="Assistente financeiro - LangChain",
@@ -128,11 +122,6 @@ p12 = st.Page(
     icon=":material/extension:",
 )
 
-p16 = st.Page(
-    "pages/lines.py",
-    title="Identificação de Linhas - Ski Image",
-    icon=":material/process_chart:",
-)
 
 p17 = st.Page(
     "pages/nba_database.py",
@@ -168,9 +157,9 @@ pg = st.navigation(
     {
         "🏠 Sobre mim": [p1],
         "🗺️ Geoprocessamento": [p2, p3, p12],
-        "🖼️ Visão Computacional": [p4, p5, p16],
+        "🖼️ Visão Computacional": [p4, p5],
         "🚀 Machine Learning": [p18, p19, p20],
-        "📊 Análise de Dados": [p8, p11, p21],
+        "📊 Análise de Dados": [p11, p21],
         "🧠 Inteligência Artificial": [p9,],
         "🛠️ Engenharia de Dados": [p17],
     },
