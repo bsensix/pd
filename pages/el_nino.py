@@ -420,9 +420,10 @@ st.markdown(
     """
 <div style='background: linear-gradient(90deg, #fff4ef 0%, #fffdf5 100%); border-left: 6px solid #e74c3c; padding: 18px 20px 10px 20px; border-radius: 8px; margin-bottom: 18px; color:#1f2937; line-height:1.6;'>
 <b>Por que se fala em um <span style='color:#c0392b;'>Super El Niño</span> em 2026?</b><br>
-As discussões sobre ganharam força porque os principais modelos meteorológicos mundiais detectaram um <b>aquecimento extremamente rápido e incomum</b> das águas superficiais do Oceano Pacífico Equatorial.<br><br>
+As discussões sobre ganharam força porque os principais modelos meteorológicos detectaram um <b>aquecimento rápido e incomum</b> das águas superficiais do Oceano Pacífico Equatorial.<br>
+
 <i>Nesta análise, comparamos os dados atuais com os maiores eventos extremos do passado (segundo o ONI da NOAA e a série histórica do NOAA CDR OISST) para entender o que fundamenta essa expectativa.</i>
-</div>
+
 """,
     unsafe_allow_html=True,
 )
@@ -513,6 +514,18 @@ laninas = df_filt[df_filt["oni"] <= -limiar]
 neutros = df_filt[(df_filt["oni"] > -limiar) & (df_filt["oni"] < limiar)]
 ultimo = df_filt.iloc[-1]
 oni_max = df_filt["oni"].max()
+
+ultimo_gee_txt = "sem dado recente"
+if GEE_OK and not df_gee_extremos.empty and "anomalia_gee" in df_gee_extremos.columns:
+    gee_valid = df_gee_extremos.dropna(subset=["anomalia_gee"]).sort_values("data")
+    if not gee_valid.empty:
+        ultimo_gee = gee_valid.iloc[-1]
+        ultimo_gee_txt = f"{float(ultimo_gee['anomalia_gee']):+.2f}°C ({ultimo_gee['data'].strftime('%Y-%m')})"
+
+if float(ultimo["oni"]) >= 0.5:
+    leitura_oni = "ONI já em faixa de El Niño"
+else:
+    leitura_oni = "ONI ainda não indica El Niño"
 
 col_mapa, col_cards = st.columns([2, 3])
 
@@ -665,13 +678,23 @@ with col_mapa:
     )
     st.plotly_chart(fig_map, use_container_width=True)
 
+st.markdown(
+    f"""
+<div class="metric-card" style="background: linear-gradient(135deg, #1f4b7a, #2f6f9d); min-height: 150px; padding: 22px 24px;">
+    <p>O que os dados dizem ?</p>
+    <h2 style="font-size:1.55rem; line-height:1.35; margin: 10px 0 12px 0;">Há aquecimento no mar, mas sem confirmação El Niño</h2>
+    <p>Anomalia °C: {ultimo_gee_txt} · {leitura_oni}</p>
+    <p style="margin-top:8px; opacity:0.95;">El Niño não depende apenas da temperatura do mar: também envolve mudanças nos ventos alísios e na pressão atmosférica (Oscilação Sul).</p>
+    <p style="margin-top:8px; opacity:0.95;">Analise os dados abaixo para entender melhor o fenômeno.</p>
+</div>""",
+    unsafe_allow_html=True,
+)
+
 st.markdown("---")
 
 # ── Gráfico principal ─────────────────────────────────────────────────────────
 st.subheader("📈 Série Histórica do ONI")
-st.caption(
-    "Dados trimestrais do ONI (1950–presente) para a região Niño 3.4. "
-)
+st.caption("Dados trimestrais do ONI (1950–presente) para a região Niño 3.4. ")
 
 fig = go.Figure()
 
@@ -925,6 +948,7 @@ if GEE_OK and not df_gee_extremos.empty:
 
         bloco_foco = gee_anual[gee_anual["ano"] == ano_foco]
         if not bloco_foco.empty:
+            bloco_foco = bloco_foco.sort_values("mes_num")
             fig_gee.add_trace(
                 go.Scatter(
                     x=bloco_foco["mes_label"],
@@ -936,6 +960,41 @@ if GEE_OK and not df_gee_extremos.empty:
                     hovertemplate=f"<b>{ano_foco}</b><br>%{{x}}: %{{y:.2f}}°C<extra></extra>",
                 )
             )
+
+            if len(bloco_foco) >= 1:
+                x_ini = bloco_foco.iloc[0]["mes_label"]
+                y_ini = float(bloco_foco.iloc[0]["anomalia_gee"])
+                x_fim = bloco_foco.iloc[-1]["mes_label"]
+                y_fim = float(bloco_foco.iloc[-1]["anomalia_gee"])
+                mes_fim = int(bloco_foco.iloc[-1]["mes_num"])
+                ay_offset = -60
+
+                if len(bloco_foco) >= 2:
+                    delta_foco = y_fim - y_ini
+                    ay_offset = -60 if delta_foco >= 0 else 60
+
+                    fig_gee.add_shape(
+                        type="line",
+                        x0=x_ini,
+                        y0=y_ini,
+                        x1=x_fim,
+                        y1=y_fim,
+                        line=dict(color="#000000", width=2, dash="dot"),
+                    )
+                fig_gee.add_annotation(
+                    x=x_fim,
+                    y=y_fim,
+                    text=f"{ano_foco}-{mes_fim:02d}: {y_fim:+.2f}°C",
+                    showarrow=True,
+                    arrowhead=2,
+                    arrowsize=1,
+                    arrowwidth=1.5,
+                    arrowcolor="#000000",
+                    ax=-80,
+                    ay=ay_offset,
+                    font=dict(color="#000000", size=12),
+                    bgcolor="rgba(255,255,255,0.85)",
+                )
 
         if not df_picos_oni.empty:
             for _, pico in df_picos_oni.iterrows():

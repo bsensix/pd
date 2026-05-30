@@ -158,6 +158,11 @@ p20 = st.Page(
     icon=":material/location_city:",
 )
 
+p21 = st.Page(
+    "pages/el_nino.py",
+    title="Previsão de El Niño",
+    icon=":material/waves:",
+)
 
 pg = st.navigation(
     {
@@ -165,7 +170,7 @@ pg = st.navigation(
         "🗺️ Geoprocessamento": [p2, p3, p12],
         "🖼️ Visão Computacional": [p4, p5, p16],
         "🚀 Machine Learning": [p18, p19, p20],
-        "📊 Análise de Dados": [p8, p11],
+        "📊 Análise de Dados": [p8, p11, p21],
         "🧠 Inteligência Artificial": [p9,],
         "🛠️ Engenharia de Dados": [p17],
     },
