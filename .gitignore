@@ -1,6 +1,6 @@
 .worktrees/
-/.superpowers/
-/superpowers/
+docs/superpowers/plans/
+docs/superpowers/specs/
 .tif
 .csv
 

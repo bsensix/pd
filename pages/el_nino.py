@@ -11,6 +11,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report
 import warnings
+import re
 
 warnings.filterwarnings("ignore")
 
@@ -141,6 +142,386 @@ def carregar_oni():
         return pd.DataFrame()
 
 
+SOI_MONTH_MAP = {
+    "jan": 1,
+    "feb": 2,
+    "mar": 3,
+    "apr": 4,
+    "may": 5,
+    "jun": 6,
+    "jul": 7,
+    "aug": 8,
+    "sep": 9,
+    "oct": 10,
+    "nov": 11,
+    "dec": 12,
+}
+
+
+def _parse_soi_html(html_text: str) -> pd.DataFrame:
+    if not html_text:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+    month_map = globals().get("SOI_MONTH_MAP") or {
+        "jan": 1,
+        "feb": 2,
+        "mar": 3,
+        "apr": 4,
+        "may": 5,
+        "jun": 6,
+        "jul": 7,
+        "aug": 8,
+        "sep": 9,
+        "oct": 10,
+        "nov": 11,
+        "dec": 12,
+    }
+
+    soup = BeautifulSoup(html_text, "html.parser")
+    dados = []
+
+    for tabela in soup.find_all("table"):
+        linhas = tabela.find_all("tr")
+        if len(linhas) < 2:
+            continue
+
+        headers = [
+            c.get_text(strip=True).lower() for c in linhas[0].find_all(["th", "td"])
+        ]
+        if not headers:
+            continue
+
+        year_idx = None
+        month_cols = {}
+        for i, h in enumerate(headers):
+            h_clean = h[:3].lower()
+            if h in {"year", "ano"}:
+                year_idx = i
+            elif h_clean in month_map:
+                month_cols[i] = month_map[h_clean]
+
+        if year_idx is None or not month_cols:
+            continue
+
+        for row in linhas[1:]:
+            cols = [c.get_text(strip=True) for c in row.find_all(["td", "th"])]
+            if len(cols) <= year_idx:
+                continue
+            ano_txt = cols[year_idx].strip()
+            if not ano_txt.isdigit():
+                continue
+            ano = int(ano_txt)
+
+            for col_idx, mes_num in month_cols.items():
+                if col_idx >= len(cols):
+                    continue
+                val_txt = cols[col_idx].replace("−", "-").replace("–", "-").strip()
+                if val_txt in {"", "--", "NaN", "nan", "N/A"}:
+                    continue
+                try:
+                    soi_val = float(val_txt)
+                except ValueError:
+                    continue
+                dados.append(
+                    {
+                        "data": pd.Timestamp(year=ano, month=mes_num, day=1),
+                        "ano": ano,
+                        "mes": mes_num,
+                        "soi": soi_val,
+                    }
+                )
+
+    if not dados:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+    df = pd.DataFrame(dados).sort_values("data").reset_index(drop=True)
+    df["soi"] = pd.to_numeric(df["soi"], errors="coerce")
+    df = df.dropna(subset=["soi"]).reset_index(drop=True)
+    return df[["data", "ano", "mes", "soi"]]
+
+
+def _parse_soi_chart_config(config_text: str) -> pd.DataFrame:
+    if not config_text:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+    i_scale = config_text.find('"scaleX"')
+    i_scroll = config_text.find('"scrollX"', i_scale if i_scale >= 0 else 0)
+    scale_x_txt = (
+        config_text[i_scale:i_scroll]
+        if i_scale >= 0 and i_scroll > i_scale
+        else config_text
+    )
+
+    labels_match = re.search(r'"labels"\s*:\s*\[(.*?)\]', scale_x_txt, re.S)
+    values_match = re.search(
+        r'"values"\s*:\s*\[(.*?)\]\s*,\s*"guideLabel"', config_text, re.S
+    )
+    if labels_match is None or values_match is None:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+    labels = re.findall(r'"([A-Za-z]{3}\s+\d{4})"', labels_match.group(1))
+    values = [v.strip() for v in values_match.group(1).split(",")]
+    n = min(len(labels), len(values))
+    if n == 0:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+    dados = []
+    for i in range(n):
+        lbl = labels[i]
+        val_txt = values[i].replace("−", "-").replace("–", "-").strip()
+        if val_txt in {"", "null", "None", "nan", "NaN"}:
+            continue
+        try:
+            dt = pd.to_datetime(lbl, format="%b %Y")
+            soi_val = float(val_txt)
+        except Exception:
+            continue
+        dados.append(
+            {"data": dt, "ano": int(dt.year), "mes": int(dt.month), "soi": soi_val}
+        )
+
+    if not dados:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+    return pd.DataFrame(dados).sort_values("data").reset_index(drop=True)
+
+
+def carregar_soi_de_html(html_text: str) -> pd.DataFrame:
+    return _parse_soi_html(html_text)
+
+
+@st.cache_data(ttl=3600)
+def carregar_soi() -> pd.DataFrame:
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+    try:
+        # Fonte NOAA/NCEI solicitada (rota da secao SOI)
+        url_cfg = "https://www.ncei.noaa.gov/access/monitoring/enso/soi/zingchart-config.js?chartId=soiTs"
+        resp_cfg = requests.get(url_cfg, headers=headers, timeout=20)
+        resp_cfg.raise_for_status()
+        df_cfg = _parse_soi_chart_config(resp_cfg.text)
+        if not df_cfg.empty:
+            return df_cfg
+
+        url_page = "https://www.ncei.noaa.gov/access/monitoring/enso/soi"
+        resp_page = requests.get(url_page, headers=headers, timeout=20)
+        resp_page.raise_for_status()
+        return carregar_soi_de_html(resp_page.text)
+    except Exception:
+        return pd.DataFrame(columns=["data", "ano", "mes", "soi"])
+
+
+def metricas_soi_historicas(df_soi: pd.DataFrame) -> dict:
+    base = {
+        "ultimo_soi": np.nan,
+        "media": np.nan,
+        "desvio": np.nan,
+        "percentil": np.nan,
+        "zscore": np.nan,
+        "ultima_data": "sem dado",
+        "n": 0,
+    }
+    if df_soi.empty:
+        return base
+
+    d = df_soi.copy()
+    d["soi"] = pd.to_numeric(d["soi"], errors="coerce")
+    d = d.dropna(subset=["soi"]).sort_values("data").reset_index(drop=True)
+    if d.empty:
+        return base
+
+    x = float(d.iloc[-1]["soi"])
+    hist = d["soi"].astype(float)
+    media = float(hist.mean())
+    desvio = float(hist.std(ddof=1)) if len(hist) > 1 else np.nan
+
+    h_sorted = hist.sort_values().reset_index(drop=True)
+    eq = h_sorted[h_sorted == x]
+    if len(eq) > 0:
+        i0 = eq.index.min() + 1
+        i1 = eq.index.max() + 1
+        percentil = float(((i0 + i1) / 2.0) / len(h_sorted) * 100.0)
+    else:
+        percentil = float((h_sorted < x).sum() / len(h_sorted) * 100.0)
+
+    if pd.notna(desvio) and desvio != 0:
+        zscore = float((x - media) / desvio)
+    elif pd.notna(desvio) and desvio == 0:
+        zscore = 0.0
+    else:
+        zscore = np.nan
+
+    return {
+        "ultimo_soi": x,
+        "media": media,
+        "desvio": desvio,
+        "percentil": percentil,
+        "zscore": zscore,
+        "ultima_data": d.iloc[-1]["data"].strftime("%Y-%m"),
+        "n": int(len(d)),
+    }
+
+
+def build_soi_summary_text(metricas: dict) -> str:
+    ultimo = metricas.get("ultimo_soi", np.nan)
+    percentil = metricas.get("percentil", np.nan)
+    zscore = metricas.get("zscore", np.nan)
+    ultima_data = metricas.get("ultima_data", "sem dado")
+
+    if pd.isna(ultimo):
+        return "Sem dados suficientes de SOI para leitura historica."
+
+    if ultimo < 0:
+        fase_txt = "SOI negativo favorece fase quente (El Nino)"
+    elif ultimo > 0:
+        fase_txt = "SOI positivo favorece fase fria (La Nina)"
+    else:
+        fase_txt = "SOI neutro, sem viés forte de fase"
+
+    p_txt = (
+        f"percentil {percentil:.1f}"
+        if pd.notna(percentil)
+        else "percentil indisponivel"
+    )
+    z_txt = f"z-score {zscore:+.2f}" if pd.notna(zscore) else "z-score indisponivel"
+    return (
+        f"Leitura SOI ({ultima_data}): {ultimo:+.2f}. "
+        f"Historico: {p_txt}, {z_txt}. {fase_txt}."
+    )
+
+
+def decidir_render_soi(df_soi: pd.DataFrame) -> dict:
+    if df_soi.empty:
+        return {"renderizar": False, "motivo": "serie vazia"}
+    if "soi" not in df_soi.columns:
+        return {"renderizar": False, "motivo": "coluna soi ausente"}
+    n_validos = int(pd.to_numeric(df_soi["soi"], errors="coerce").notna().sum())
+    return {
+        "renderizar": n_validos > 0,
+        "motivo": "ok" if n_validos > 0 else "sem valores validos",
+    }
+
+
+def build_soi_visual_context(df_soi: pd.DataFrame, metricas: dict) -> dict:
+    decisao = decidir_render_soi(df_soi)
+    return {
+        "mostrar_warning": not decisao["renderizar"],
+        "mensagem_warning": f"SOI indisponivel: {decisao['motivo']}.",
+        "resumo": build_soi_summary_text(metricas) if decisao["renderizar"] else "",
+    }
+
+
+def build_indicadores_recentes(
+    df_oni: pd.DataFrame,
+    df_soi: pd.DataFrame,
+    df_gee_extremos: pd.DataFrame,
+    gee_ok: bool,
+) -> dict:
+    def classe_por_valor(v: float) -> str:
+        if pd.isna(v):
+            return "neutro"
+        if v >= 0.5:
+            return "elnino"
+        if v <= -0.5:
+            return "lanina"
+        return "neutro"
+
+    ultimo_oni = df_oni.iloc[-1]
+    oni_val = float(ultimo_oni["oni"])
+    if oni_val >= 0.5:
+        oni_fase = "El Niño"
+    elif oni_val <= -0.5:
+        oni_fase = "La Niña"
+    else:
+        oni_fase = "Neutro"
+    oni = {
+        "titulo": f"Último ONI ({ultimo_oni['periodo']})",
+        "valor": f"{oni_val:+.2f}°C",
+        "sub": oni_fase,
+        "classe": classe_por_valor(oni_val),
+    }
+
+    if df_soi.empty:
+        soi = {
+            "titulo": "Último SOI",
+            "valor": "sem dado",
+            "sub": "série indisponível",
+            "classe": "neutro",
+        }
+    else:
+        soi_valid = (
+            df_soi.dropna(subset=["soi"]).sort_values("data").reset_index(drop=True)
+        )
+        if soi_valid.empty:
+            soi = {
+                "titulo": "Último SOI",
+                "valor": "sem dado",
+                "sub": "série indisponível",
+                "classe": "neutro",
+            }
+        else:
+            s = soi_valid.iloc[-1]
+            s_val = float(s["soi"])
+            s_data = s["data"].strftime("%Y-%m")
+            soi = {
+                "titulo": f"Último SOI ({s_data})",
+                "valor": f"{s_val:+.2f}",
+                "sub": "favorece El Niño"
+                if s_val < 0
+                else "favorece La Niña"
+                if s_val > 0
+                else "neutro",
+                "classe": "elnino"
+                if s_val < 0
+                else "lanina"
+                if s_val > 0
+                else "neutro",
+            }
+
+    if (
+        gee_ok
+        and not df_gee_extremos.empty
+        and "anomalia_gee" in df_gee_extremos.columns
+    ):
+        gee_valid = (
+            df_gee_extremos.dropna(subset=["anomalia_gee"])
+            .sort_values("data")
+            .reset_index(drop=True)
+        )
+    else:
+        gee_valid = pd.DataFrame()
+
+    if gee_valid.empty:
+        anomalia = {
+            "titulo": "Última Anomalia de Temperatura",
+            "valor": "sem dado",
+            "sub": "NOAA CDR OISST",
+            "classe": "neutro",
+        }
+    else:
+        g = gee_valid.iloc[-1]
+        g_val = float(g["anomalia_gee"])
+        g_data = g["data"].strftime("%Y-%m")
+        anomalia = {
+            "titulo": f"Última Anomalia ({g_data})",
+            "valor": f"{g_val:+.2f}°C",
+            "sub": "NOAA CDR OISST",
+            "classe": "elnino" if g_val > 0 else "lanina" if g_val < 0 else "neutro",
+        }
+
+    return {"oni": oni, "soi": soi, "anomalia": anomalia}
+
+
+def build_resumo_analise_texto(
+    ultimo_gee_txt: str, leitura_oni: str, indicadores_recentes: dict
+) -> str:
+    soi_info = indicadores_recentes.get("soi", {})
+    soi_val = soi_info.get("valor", "sem dado")
+    soi_sub = soi_info.get("sub", "série indisponível")
+    return f"Anomalia °C: {ultimo_gee_txt} · {leitura_oni} · SOI: {soi_val} ({soi_sub})"
+
+
 def classificar(oni):
     if oni >= 1.5:
         return "El Niño Forte/Muito Forte"
@@ -227,15 +608,26 @@ def carregar_sst_gee(ano_ini: int, ano_fim: int) -> pd.DataFrame:
     df_gee["data"] = pd.to_datetime(df_gee["data"])
     df_gee = df_gee.sort_values("data").reset_index(drop=True)
 
-    # Climatologia 1991-2020
-    clima = (
-        df_gee[(df_gee["data"].dt.year >= 1991) & (df_gee["data"].dt.year <= 2020)]
-        .groupby(df_gee["data"].dt.month)["sst_gee"]
-        .mean()
-    )
-    df_gee["anomalia_gee"] = df_gee.apply(
-        lambda r: r["sst_gee"] - clima.get(r["data"].month, np.nan), axis=1
-    )
+    # --- Garantir que sst_gee é float, aplicar escala correta (0.01) e tratar valores inválidos ---
+    df_gee["sst_gee"] = pd.to_numeric(df_gee["sst_gee"], errors="coerce") * 0.01
+
+    # --- Climatologia: média de TODO o histórico disponível ---
+    clima = df_gee.groupby(df_gee["data"].dt.month)["sst_gee"].mean()
+
+    # --- Checagem: climatologia não pode ter NaN ---
+    if clima.isnull().any():
+        st.warning(
+            "Climatologia contém valores NaN para alguns meses. Verifique os dados históricos."
+        )
+
+    # --- Cálculo robusto da anomalia, evitando valores absurdos ---
+    def calc_anomalia(row):
+        clim = clima.get(row["data"].month, np.nan)
+        if pd.notna(clim) and pd.notna(row["sst_gee"]):
+            return row["sst_gee"] - clim
+        return np.nan
+
+    df_gee["anomalia_gee"] = df_gee.apply(calc_anomalia, axis=1)
     df_gee["periodo_label"] = df_gee["data"].dt.strftime("%Y-%m")
     return df_gee
 
@@ -420,9 +812,9 @@ st.markdown(
     """
 <div style='background: linear-gradient(90deg, #fff4ef 0%, #fffdf5 100%); border-left: 6px solid #e74c3c; padding: 18px 20px 10px 20px; border-radius: 8px; margin-bottom: 18px; color:#1f2937; line-height:1.6;'>
 <b>Por que se fala em um <span style='color:#c0392b;'>Super El Niño</span> em 2026?</b><br>
-As discussões sobre ganharam força porque os principais modelos meteorológicos detectaram um <b>aquecimento rápido e incomum</b> das águas superficiais do Oceano Pacífico Equatorial.<br>
+As discussões ganharam força porque os principais modelos meteorológicos detectaram um <b>aquecimento rápido e incomum</b> das águas superficiais do Oceano Pacífico Equatorial.<br>
 
-<i>Nesta análise, comparamos os dados atuais com os maiores eventos extremos do passado (segundo o ONI da NOAA e a série histórica do NOAA CDR OISST) para entender o que fundamenta essa expectativa.</i>
+<i>Nesta análise, comparamos os dados atuais com os maiores eventos extremos do passado (segundo o ONI da NOAA, a série histórica do NOAA CDR OISST e o SOI) para entender o que fundamenta essa expectativa.</i>
 
 """,
     unsafe_allow_html=True,
@@ -434,9 +826,12 @@ with st.spinner("Carregando dados históricos do NOAA…"):
 if df.empty:
     st.stop()
 
+with st.spinner("Carregando série histórica do SOI…"):
+    df_soi = carregar_soi()
+
 
 # ── Sem filtros: análise automática dos eventos extremos ─────────────────────
-col_oni, col_oisst = st.columns(2)
+col_oni, col_oisst, col_soi = st.columns(3)
 
 with col_oni:
     st.markdown("**O que é o ONI?**")
@@ -452,6 +847,14 @@ with col_oisst:
         "Conjuntos de dados de temperatura da superfície do mar (SST) "
         "fornecidos pela NOAA. Usamos a versão "
         "NOAA/CDR/OISST/V2_1 via a API GEE para calcular médias e anomalias na região Niño 3.4. "
+    )
+
+with col_soi:
+    st.markdown("**O que é o SOI?**")
+    st.info(
+        "O Southern Oscillation Index (SOI) mede a diferença padronizada de pressão "
+        "ao nível do mar entre Taiti e Darwin, Austrália. Valores negativos tendem a favorecer "
+        "El Niño, enquanto valores positivos tendem a favorecer La Niña."
     )
 
 # Seleciona os anos dos maiores eventos (top 3 do ranking)
@@ -514,6 +917,9 @@ laninas = df_filt[df_filt["oni"] <= -limiar]
 neutros = df_filt[(df_filt["oni"] > -limiar) & (df_filt["oni"] < limiar)]
 ultimo = df_filt.iloc[-1]
 oni_max = df_filt["oni"].max()
+indicadores_recentes = build_indicadores_recentes(
+    df_filt, df_soi, df_gee_extremos, GEE_OK
+)
 
 ultimo_gee_txt = "sem dado recente"
 if GEE_OK and not df_gee_extremos.empty and "anomalia_gee" in df_gee_extremos.columns:
@@ -527,21 +933,50 @@ if float(ultimo["oni"]) >= 0.5:
 else:
     leitura_oni = "ONI ainda não indica El Niño"
 
+resumo_analise = build_resumo_analise_texto(
+    ultimo_gee_txt, leitura_oni, indicadores_recentes
+)
+
 col_mapa, col_cards = st.columns([2, 3])
 
 with col_cards:
-    r1c1, r1c2 = st.columns(2)
+    r1c1, r1c2, r1c3 = st.columns(3)
     with r1c1:
+        oni_card = indicadores_recentes["oni"]
         st.markdown(
             f"""
-        <div class="metric-card">
-            <p>Último ONI ({ultimo["periodo"]})</p>
-            <h2>{ultimo["oni"]:+.2f}°C</h2>
-            <p>{classificar(ultimo["oni"])}</p>
+        <div class="metric-card {oni_card["classe"]}">
+            <p>{oni_card["titulo"]}</p>
+            <h2>{oni_card["valor"]}</h2>
+            <p>{oni_card["sub"]}</p>
         </div>""",
             unsafe_allow_html=True,
         )
     with r1c2:
+        soi_card = indicadores_recentes["soi"]
+        st.markdown(
+            f"""
+        <div class="metric-card {soi_card["classe"]}">
+            <p>{soi_card["titulo"]}</p>
+            <h2>{soi_card["valor"]}</h2>
+            <p>{soi_card["sub"]}</p>
+        </div>""",
+            unsafe_allow_html=True,
+        )
+    with r1c3:
+        anom_card = indicadores_recentes["anomalia"]
+        st.markdown(
+            f"""
+        <div class="metric-card {anom_card["classe"]}">
+            <p>{anom_card["titulo"]}</p>
+            <h2>{anom_card["valor"]}</h2>
+            <p>{anom_card["sub"]}</p>
+        </div>""",
+            unsafe_allow_html=True,
+        )
+
+    r2c1, r2c2, r2c3, r2c4 = st.columns(4)
+    with r2c1:
         st.markdown(
             f"""
         <div class="metric-card elnino">
@@ -551,9 +986,7 @@ with col_cards:
         </div>""",
             unsafe_allow_html=True,
         )
-
-    r2c1, r2c2, r2c3 = st.columns(3)
-    with r2c1:
+    with r2c2:
         st.markdown(
             f"""
         <div class="metric-card elnino">
@@ -563,7 +996,7 @@ with col_cards:
         </div>""",
             unsafe_allow_html=True,
         )
-    with r2c2:
+    with r2c3:
         st.markdown(
             f"""
         <div class="metric-card lanina">
@@ -573,7 +1006,7 @@ with col_cards:
         </div>""",
             unsafe_allow_html=True,
         )
-    with r2c3:
+    with r2c4:
         st.markdown(
             f"""
         <div class="metric-card neutro">
@@ -683,7 +1116,7 @@ st.markdown(
 <div class="metric-card" style="background: linear-gradient(135deg, #1f4b7a, #2f6f9d); min-height: 150px; padding: 22px 24px;">
     <p>O que os dados dizem ?</p>
     <h2 style="font-size:1.55rem; line-height:1.35; margin: 10px 0 12px 0;">Há aquecimento no mar, mas sem confirmação El Niño</h2>
-    <p>Anomalia °C: {ultimo_gee_txt} · {leitura_oni}</p>
+    <p>{resumo_analise}</p>
     <p style="margin-top:8px; opacity:0.95;">El Niño não depende apenas da temperatura do mar: também envolve mudanças nos ventos alísios e na pressão atmosférica (Oscilação Sul).</p>
     <p style="margin-top:8px; opacity:0.95;">Analise os dados abaixo para entender melhor o fenômeno.</p>
 </div>""",
@@ -785,11 +1218,94 @@ fig.update_layout(
 )
 fig_oni = fig
 
-# ── Potencial 2026: anomalia mensal por ano (sem filtro por pico ONI) ───────
 fig_gee = None
 gee_warning_msg = None
 
+# --- Gráfico de valores originais de SST por mês, com climatologia ---
+fig_sst = None
+df_clima = None
+
 if GEE_OK and not df_gee_extremos.empty:
+    # Cálculo da climatologia (já garantido no carregamento, mas recalculado para exibir)
+    df_gee_extremos["sst_gee"] = pd.to_numeric(
+        df_gee_extremos["sst_gee"], errors="coerce"
+    )
+    clima = df_gee_extremos.groupby(df_gee_extremos["data"].dt.month)["sst_gee"].mean()
+    # DataFrame da climatologia para exibição
+    df_clima = pd.DataFrame({"Mês": clima.index, "Climatologia_SST": clima.values})
+    # Adiciona coluna de mês para plot
+    df_gee_extremos["mes_num"] = df_gee_extremos["data"].dt.month
+    df_gee_extremos["ano"] = df_gee_extremos["data"].dt.year
+    mes_labels = {
+        1: "Jan",
+        2: "Fev",
+        3: "Mar",
+        4: "Abr",
+        5: "Mai",
+        6: "Jun",
+        7: "Jul",
+        8: "Ago",
+        9: "Set",
+        10: "Out",
+        11: "Nov",
+        12: "Dez",
+    }
+    df_gee_extremos["mes_label"] = df_gee_extremos["mes_num"].map(mes_labels)
+    # Gráfico
+    fig_sst = go.Figure()
+    # Linhas de cada ano
+    max_ano = int(df_gee_extremos["ano"].max())
+    for ano, bloco in df_gee_extremos.groupby("ano"):
+        show_leg = bool(ano == max_ano)
+        fig_sst.add_trace(
+            go.Scatter(
+                x=bloco["mes_label"],
+                y=bloco["sst_gee"],
+                mode="lines+markers",
+                name=str(ano),
+                line=dict(width=1.2),
+                marker=dict(size=4),
+                opacity=0.25 if ano != max_ano else 1.0,
+                showlegend=show_leg,
+                hovertemplate=f"<b>{ano}</b><br>%{{x}}: %{{y:.2f}}°C<extra></extra>",
+            )
+        )
+    # Linha da climatologia
+    fig_sst.add_trace(
+        go.Scatter(
+            x=[mes_labels[m] for m in clima.index],
+            y=clima.values,
+            mode="lines+markers",
+            name="Climatologia",
+            line=dict(color="#e67e22", width=3, dash="dash"),
+            marker=dict(size=7, color="#e67e22"),
+            hovertemplate="<b>Climatologia</b><br>%{x}: %{y:.2f}°C<extra></extra>",
+        )
+    )
+    fig_sst.update_layout(
+        title="SST Original por Mês (com Climatologia)",
+        height=420,
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#f8fafc",
+        font=dict(color="#000000"),
+        xaxis=dict(
+            title="Mês",
+            categoryorder="array",
+            categoryarray=[mes_labels[m] for m in range(1, 13)],
+            gridcolor="#e5e7eb",
+            tickfont=dict(color="#000000"),
+            title_font=dict(color="#000000"),
+        ),
+        yaxis=dict(
+            title="SST (°C)",
+            gridcolor="#e5e7eb",
+            tickfont=dict(color="#000000"),
+            title_font=dict(color="#000000"),
+        ),
+        margin=dict(t=20, b=70),
+        legend=dict(orientation="h", y=-0.2, font=dict(color="#000000")),
+        hovermode="x unified",
+    )
     mes_labels = {
         1: "Jan",
         2: "Fev",
@@ -1071,8 +1587,11 @@ else:
 
 st.plotly_chart(fig_oni, use_container_width=True)
 
+
 st.markdown("---")
-st.subheader("🔥 Potencial 2026: anomalia mensal por ano")
+
+## Removido gráfico de SST mensal original e dataframe de climatologia conforme solicitado
+st.subheader("🔥Anomalias Mensais Temperatura")
 st.caption(
     "Análise comparativa da anomalia mensal da  temperatura por ano, com destaque para picos de El Niño, com média geral histórica."
 )
@@ -1080,3 +1599,96 @@ if fig_gee is not None:
     st.plotly_chart(fig_gee, use_container_width=True)
 else:
     st.warning(gee_warning_msg or "Gráfico GEE indisponível nesta execução.")
+
+st.markdown("---")
+st.subheader("📉 Índice de Oscilação Sul (SOI) — Série Histórica")
+st.caption("Fonte: NOAA/NCEI ENSO · SOI mensal")
+
+soi_metricas = metricas_soi_historicas(df_soi)
+soi_ctx = build_soi_visual_context(df_soi, soi_metricas)
+
+if soi_ctx["mostrar_warning"]:
+    st.warning(soi_ctx["mensagem_warning"])
+else:
+    df_soi_plot = df_soi.copy().sort_values("data").reset_index(drop=True)
+    x_vals = df_soi_plot["data"].tolist()
+    y_vals = pd.to_numeric(df_soi_plot["soi"], errors="coerce").tolist()
+
+    x_pos, y_pos, x_neg, y_neg = [], [], [], []
+
+    def _add_seg(xs, ys, xa, ya, xb, yb):
+        xs.extend([xa, xb, None])
+        ys.extend([ya, yb, None])
+
+    for i in range(len(y_vals) - 1):
+        y0, y1 = y_vals[i], y_vals[i + 1]
+        x0, x1 = x_vals[i], x_vals[i + 1]
+
+        if pd.isna(y0) or pd.isna(y1):
+            continue
+
+        if y0 >= 0 and y1 >= 0:
+            _add_seg(x_pos, y_pos, x0, y0, x1, y1)
+        elif y0 <= 0 and y1 <= 0:
+            _add_seg(x_neg, y_neg, x0, y0, x1, y1)
+        else:
+            den = abs(y0) + abs(y1)
+            frac = abs(y0) / den if den != 0 else 0.5
+            x_cross = x0 + (x1 - x0) * frac
+
+            if y0 > 0:
+                _add_seg(x_pos, y_pos, x0, y0, x_cross, 0.0)
+                _add_seg(x_neg, y_neg, x_cross, 0.0, x1, y1)
+            else:
+                _add_seg(x_neg, y_neg, x0, y0, x_cross, 0.0)
+                _add_seg(x_pos, y_pos, x_cross, 0.0, x1, y1)
+
+    fig_soi = go.Figure()
+    fig_soi.add_trace(
+        go.Scatter(
+            x=x_pos,
+            y=y_pos,
+            mode="lines",
+            line=dict(color="#1f77b4", width=1.8),
+            name="SOI positivo",
+            hovertemplate="<b>%{x|%Y-%m}</b><br>SOI: %{y:.2f}<extra></extra>",
+        )
+    )
+    fig_soi.add_trace(
+        go.Scatter(
+            x=x_neg,
+            y=y_neg,
+            mode="lines",
+            line=dict(color="#d62728", width=1.8),
+            name="SOI negativo",
+            hovertemplate="<b>%{x|%Y-%m}</b><br>SOI: %{y:.2f}<extra></extra>",
+        )
+    )
+    fig_soi.add_hline(y=0, line=dict(color="#7f8c8d", width=1.1, dash="dash"))
+    fig_soi.update_layout(
+        height=360,
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#f9f9f9",
+        margin=dict(t=20, b=60),
+        xaxis=dict(
+            title="Período",
+            gridcolor="#e0e0e0",
+            tickfont=dict(color="#000000"),
+            title_font=dict(color="#000000"),
+            linecolor="#000000",
+        ),
+        yaxis=dict(
+            title="SOI",
+            gridcolor="#e0e0e0",
+            tickfont=dict(color="#000000"),
+            title_font=dict(color="#000000"),
+            linecolor="#000000",
+        ),
+        hovermode="x unified",
+        legend=dict(font=dict(color="#000000")),
+    )
+    st.plotly_chart(fig_soi, use_container_width=True)
+
+    st.caption(
+        "Interpretação ENSO: SOI negativo tende a favorecer fase quente (El Niño) e SOI positivo tende a favorecer fase fria (La Niña)."
+    )
