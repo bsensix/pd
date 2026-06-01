@@ -30,7 +30,7 @@ try:
         ee.Initialize(_credentials, project=_creds["project_id"])
     else:
         # ── Local: autenticação via earthengine authenticate
-        ee.Initialize(project="agriphenoscan")
+        ee.Initialize(project="project-id-placeholder")
 
     GEE_OK = True
     _GEE_ERR_MSG = ""
@@ -54,6 +54,14 @@ st.markdown(
 }
 .metric-card h2 { font-size: 2rem; margin: 0; }
 .metric-card p  { font-size: 0.85rem; margin: 0; opacity: 0.8; }
+.metric-card-mini {
+    border-radius: 10px;
+    padding: 8px 8px;
+    min-height: 74px;
+    margin: 2px 1px;
+}
+.metric-card-mini h2 { font-size: 0.9rem; margin: 3px 0; line-height: 1.15; }
+.metric-card-mini p  { font-size: 0.68rem; line-height: 1.2; }
 .elnino   { background: linear-gradient(135deg, #b22222, #e74c3c); }
 .lanina   { background: linear-gradient(135deg, #1a5276, #2980b9); }
 .neutro   { background: linear-gradient(135deg, #1d6a40, #27ae60); }
@@ -975,47 +983,17 @@ with col_cards:
             unsafe_allow_html=True,
         )
 
-    r2c1, r2c2, r2c3, r2c4 = st.columns(4)
-    with r2c1:
-        st.markdown(
-            f"""
-        <div class="metric-card elnino">
-            <p>ONI Máximo Histórico</p>
-            <h2>{oni_max:+.2f}°C</h2>
-            <p>{df_filt.loc[df_filt["oni"].idxmax(), "periodo"]}</p>
-        </div>""",
-            unsafe_allow_html=True,
-        )
-    with r2c2:
-        st.markdown(
-            f"""
-        <div class="metric-card elnino">
-            <p>Trimestres El Niño</p>
-            <h2>{len(elninos)}</h2>
-            <p>{len(elninos) / len(df_filt) * 100:.1f}% do período</p>
-        </div>""",
-            unsafe_allow_html=True,
-        )
-    with r2c3:
-        st.markdown(
-            f"""
-        <div class="metric-card lanina">
-            <p>Trimestres La Niña</p>
-            <h2>{len(laninas)}</h2>
-            <p>{len(laninas) / len(df_filt) * 100:.1f}% do período</p>
-        </div>""",
-            unsafe_allow_html=True,
-        )
-    with r2c4:
-        st.markdown(
-            f"""
-        <div class="metric-card neutro">
-            <p>Trimestres Neutros</p>
-            <h2>{len(neutros)}</h2>
-            <p>{len(neutros) / len(df_filt) * 100:.1f}% do período</p>
-        </div>""",
-            unsafe_allow_html=True,
-        )
+    st.markdown(
+        f"""
+    <div class="metric-card" style="background: linear-gradient(135deg, #1f4b7a, #2f6f9d); min-height: 150px; padding: 22px 24px; margin-top: 12px;">
+        <p>O que os dados dizem ?</p>
+        <h2 style="font-size:1.55rem; line-height:1.35; margin: 10px 0 12px 0;">Há aquecimento no mar, mas sem confirmação El Niño</h2>
+        <p>{resumo_analise}</p>
+        <p style="margin-top:8px; opacity:0.95;">El Niño não depende apenas da temperatura do mar: também envolve mudanças nos ventos alísios e na pressão atmosférica (Oscilação Sul).</p>
+        <p style="margin-top:8px; opacity:0.95;">Analise os dados abaixo para entender melhor o fenômeno.</p>
+    </div>""",
+        unsafe_allow_html=True,
+    )
 
 with col_mapa:
     st.caption("🗺️ Regiões de Monitoramento ENSO")
@@ -1111,17 +1089,48 @@ with col_mapa:
     )
     st.plotly_chart(fig_map, use_container_width=True)
 
-st.markdown(
-    f"""
-<div class="metric-card" style="background: linear-gradient(135deg, #1f4b7a, #2f6f9d); min-height: 150px; padding: 22px 24px;">
-    <p>O que os dados dizem ?</p>
-    <h2 style="font-size:1.55rem; line-height:1.35; margin: 10px 0 12px 0;">Há aquecimento no mar, mas sem confirmação El Niño</h2>
-    <p>{resumo_analise}</p>
-    <p style="margin-top:8px; opacity:0.95;">El Niño não depende apenas da temperatura do mar: também envolve mudanças nos ventos alísios e na pressão atmosférica (Oscilação Sul).</p>
-    <p style="margin-top:8px; opacity:0.95;">Analise os dados abaixo para entender melhor o fenômeno.</p>
-</div>""",
-    unsafe_allow_html=True,
-)
+st.markdown("<div style='height: 4px;'></div>", unsafe_allow_html=True)
+r2c1, r2c2, r2c3, r2c4 = st.columns(4)
+with r2c1:
+    st.markdown(
+        f"""
+    <div class="metric-card metric-card-mini elnino">
+        <p>ONI Máximo Histórico</p>
+        <h2>{oni_max:+.2f}°C</h2>
+        <p>{df_filt.loc[df_filt["oni"].idxmax(), "periodo"]}</p>
+    </div>""",
+        unsafe_allow_html=True,
+    )
+with r2c2:
+    st.markdown(
+        f"""
+    <div class="metric-card metric-card-mini elnino">
+        <p>Trimestres El Niño</p>
+        <h2>{len(elninos)}</h2>
+        <p>{len(elninos) / len(df_filt) * 100:.1f}% do período</p>
+    </div>""",
+        unsafe_allow_html=True,
+    )
+with r2c3:
+    st.markdown(
+        f"""
+    <div class="metric-card metric-card-mini lanina">
+        <p>Trimestres La Niña</p>
+        <h2>{len(laninas)}</h2>
+        <p>{len(laninas) / len(df_filt) * 100:.1f}% do período</p>
+    </div>""",
+        unsafe_allow_html=True,
+    )
+with r2c4:
+    st.markdown(
+        f"""
+    <div class="metric-card metric-card-mini neutro">
+        <p>Trimestres Neutros</p>
+        <h2>{len(neutros)}</h2>
+        <p>{len(neutros) / len(df_filt) * 100:.1f}% do período</p>
+    </div>""",
+        unsafe_allow_html=True,
+    )
 
 st.markdown("---")
 
@@ -1692,3 +1701,28 @@ else:
     st.caption(
         "Interpretação ENSO: SOI negativo tende a favorecer fase quente (El Niño) e SOI positivo tende a favorecer fase fria (La Niña)."
     )
+
+st.markdown("---")
+st.subheader("📚 Referências")
+
+referencias = [
+    (
+        "NOAA/CPC — Oceanic Niño Index (ONI)",
+        "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php",
+    ),
+    (
+        "NOAA/NCEI — ENSO Southern Oscillation Index (SOI)",
+        "https://www.ncei.noaa.gov/access/monitoring/enso/soi",
+    ),
+    (
+        "Google Earth Engine — NOAA/CDR/OISST/V2_1",
+        "https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_OISST_V2_1",
+    ),
+    (
+        "Palestra professor Luis Carlos Molion sobre ENSO",
+        "https://www.youtube.com/watch?v=lqgKil7VuU4",
+    ),
+]
+
+for nome, link in referencias:
+    st.markdown(f"- [{nome}]({link})")
