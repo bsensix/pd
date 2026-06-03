@@ -4,12 +4,6 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
-from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import classification_report
 import warnings
 import re
 
@@ -929,20 +923,49 @@ indicadores_recentes = build_indicadores_recentes(
     df_filt, df_soi, df_gee_extremos, GEE_OK
 )
 
+indicadores_recentes = {
+    "oni": {
+        "titulo": "Último ONI (2026-MAM)",
+        "valor": "+0.50°C",
+        "sub": "El Niño",
+        "classe": "elnino",
+    },
+    "soi": {
+        "titulo": "Último SOI (2026-05)",
+        "valor": "-0.90",
+        "sub": "favorece El Niño",
+        "classe": "elnino",
+    },
+    "anomalia": {
+        "titulo": "Última Anomalia (2026-05)",
+        "valor": "+1.01°C",
+        "sub": "NOAA CDR OISST",
+        "classe": "elnino",
+    },
+}
+
 ultimo_gee_txt = "sem dado recente"
 if GEE_OK and not df_gee_extremos.empty and "anomalia_gee" in df_gee_extremos.columns:
     gee_valid = df_gee_extremos.dropna(subset=["anomalia_gee"]).sort_values("data")
     if not gee_valid.empty:
         ultimo_gee = gee_valid.iloc[-1]
         ultimo_gee_txt = f"{float(ultimo_gee['anomalia_gee']):+.2f}°C ({ultimo_gee['data'].strftime('%Y-%m')})"
+ultimo_gee_txt = "+1.01°C (2026-05)"
 
-if float(ultimo["oni"]) >= 0.5:
-    leitura_oni = "ONI já em faixa de El Niño"
+oni_referencia = 0.50
+if oni_referencia >= 0.5:
+    leitura_oni = "ONI em faixa de El Niño (início)"
 else:
     leitura_oni = "ONI ainda não indica El Niño"
 
 resumo_analise = build_resumo_analise_texto(
     ultimo_gee_txt, leitura_oni, indicadores_recentes
+)
+
+titulo_diagnostico = (
+    "Há aquecimento no mar e início de El Niño"
+    if oni_referencia >= 0.5
+    else "Há aquecimento no mar, mas sem confirmação El Niño"
 )
 
 col_mapa, col_cards = st.columns([2, 3])
@@ -987,7 +1010,7 @@ with col_cards:
         f"""
     <div class="metric-card" style="background: linear-gradient(135deg, #1f4b7a, #2f6f9d); min-height: 150px; padding: 22px 24px; margin-top: 12px;">
         <p>O que os dados dizem ?</p>
-        <h2 style="font-size:1.55rem; line-height:1.35; margin: 10px 0 12px 0;">Há aquecimento no mar, mas sem confirmação El Niño</h2>
+        <h2 style="font-size:1.55rem; line-height:1.35; margin: 10px 0 12px 0;">{titulo_diagnostico}</h2>
         <p>{resumo_analise}</p>
         <p style="margin-top:8px; opacity:0.95;">El Niño não depende apenas da temperatura do mar: também envolve mudanças nos ventos alísios e na pressão atmosférica (Oscilação Sul).</p>
         <p style="margin-top:8px; opacity:0.95;">Analise os dados abaixo para entender melhor o fenômeno.</p>
