@@ -17,43 +17,6 @@ O app organiza diferentes estudos e projetos em uma interface única, com navega
 - OpenCV e scikit-image
 - Earth Engine API
 
-## Como executar localmente
-
-1. Clone o repositório:
-
-```bash
-git clone <url-do-repositorio>
-```
-
-2. Acesse a pasta do projeto:
-
-```bash
-cd pd
-```
-
-3. Crie e ative um ambiente virtual:
-
-```bash
-python -m venv .venv
-```
-
-No Windows (PowerShell):
-
-```bash
-.venv\Scripts\Activate.ps1
-```
-
-4. Instale as dependências:
-
-```bash
-pip install -r requirements.txt
-```
-
-5. Rode a aplicação:
-
-```bash
-streamlit run st_pages.py
-```
 
 ## Estrutura do repositório
 
@@ -74,5 +37,5 @@ streamlit run st_pages.py
 
 ## Contato
 
-- LinkedIn: `<seu-linkedin-aqui>`
-- E-mail: `<seu-email-aqui>`
+- LinkedIn: `<https://www.linkedin.com/in/breno-nunes-b595781ba/>`
+- E-mail: `<breno_1697@hotmail.com>`
