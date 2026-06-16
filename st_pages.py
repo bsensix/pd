@@ -84,7 +84,6 @@ st.markdown(
 )
 
 
-
 p1 = st.Page("pages/sobre_mim.py", title="Breno Nunes", icon=":material/home:")
 p2 = st.Page("pages/mapas.py", title="Mapas", icon=":material/map:")
 p3 = st.Page(
@@ -129,6 +128,12 @@ p17 = st.Page(
     icon=":material/database:",
 )
 
+p22 = st.Page(
+    "pages/agro_gee_api.py",
+    title="Agro GEE API",
+    icon=":material/agriculture:",
+)
+
 p18 = st.Page(
     "pages/ml_arpu.py",
     title="Previsão de ofertas de cupons",
@@ -160,8 +165,8 @@ pg = st.navigation(
         "🖼️ Visão Computacional": [p4, p5],
         "🚀 Machine Learning": [p18, p19, p20],
         "📊 Análise de Dados": [p11, p21],
-        "🧠 Inteligência Artificial": [p9,],
-        "🛠️ Engenharia de Dados": [p17],
+        "🧠 Inteligência Artificial": [p9],
+        "🛠️ Engenharia de Dados": [p17, p22],
     },
     position="top",
 )
